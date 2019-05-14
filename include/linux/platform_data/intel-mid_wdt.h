@@ -13,6 +13,7 @@
 
 struct intel_mid_wdt_pdata {
 	int irq;
+	int freq;
 	int (*probe)(struct platform_device *pdev);
 };
 

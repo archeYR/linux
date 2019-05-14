@@ -51,12 +51,16 @@ wdt_command(struct mid_wdt *mid, int sub, const void *in, size_t inlen, size_t s
 static int wdt_start(struct watchdog_device *wd)
 {
 	struct mid_wdt *mid = watchdog_get_drvdata(wd);
+	struct intel_mid_wdt_pdata *pdata = mid->dev->platform_data;
 	int ret, in_size;
 	int timeout = wd->timeout;
 	struct ipc_wd_start {
 		u32 pretimeout;
 		u32 timeout;
-	} ipc_wd_start = { timeout - MID_WDT_PRETIMEOUT, timeout };
+	} ipc_wd_start = {
+		(timeout - MID_WDT_PRETIMEOUT) * pdata->freq,
+		timeout * pdata->freq
+	};
 
 	/*
 	 * SCU expects the input size for watchdog IPC to be 2 which is the

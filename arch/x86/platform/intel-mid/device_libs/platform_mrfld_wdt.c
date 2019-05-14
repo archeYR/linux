@@ -10,6 +10,7 @@
 #include <linux/interrupt.h>
 #include <linux/platform_device.h>
 #include <linux/platform_data/intel-mid_wdt.h>
+#include <asm/apb_timer.h>
 
 #include <asm/intel-mid.h>
 #include <asm/intel_scu_ipc.h>
@@ -42,11 +43,31 @@ static int tangier_probe(struct platform_device *pdev)
 	}
 
 	pdata->irq = irq;
+	pdata->freq = 1;
 	return 0;
 }
 
 static struct intel_mid_wdt_pdata tangier_pdata = {
 	.probe = tangier_probe,
+};
+
+static int penwell_probe(struct platform_device *pdev)
+{
+	struct intel_mid_wdt_pdata *pdata = pdev->dev.platform_data;
+	struct sfi_timer_table_entry *timer_tbl_ptr;
+
+	if (!pdata)
+		return -EINVAL;
+
+	timer_tbl_ptr = sfi_get_mtmr(sfi_mtimer_num-1);
+
+	pdata->irq = timer_tbl_ptr->irq;
+	pdata->freq = timer_tbl_ptr->freq_hz;
+	return 0;
+}
+
+static struct intel_mid_wdt_pdata penwell_pdata = {
+	.probe = penwell_probe,
 };
 
 static int wdt_scu_status_change(struct notifier_block *nb,
@@ -66,10 +87,12 @@ static struct notifier_block wdt_scu_notifier = {
 
 static int __init register_mid_wdt(void)
 {
-	if (intel_mid_identify_cpu() != INTEL_MID_CPU_CHIP_TANGIER)
+	if (intel_mid_identify_cpu() == INTEL_MID_CPU_CHIP_TANGIER)
+		wdt_dev.dev.platform_data = &tangier_pdata;
+	else if (intel_mid_identify_cpu() == INTEL_MID_CPU_CHIP_PENWELL)
+		wdt_dev.dev.platform_data = &penwell_pdata;
+	else
 		return -ENODEV;
-
-	wdt_dev.dev.platform_data = &tangier_pdata;
 
 	/*
 	 * We need to be sure that the SCU IPC is ready before watchdog device
