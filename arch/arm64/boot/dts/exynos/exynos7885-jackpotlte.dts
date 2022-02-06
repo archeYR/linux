@@ -25,7 +25,32 @@
 	};
 
 	chosen {
+		#address-cells = <2>;
+		#size-cells = <1>;
+		ranges;
+
 		stdout-path = &serial_2;
+
+		framebuffer@ec000000 {
+			compatible = "simple-framebuffer";
+			reg = <0x0 0xec000000 0x00925680>;
+			width = <1080>;
+			height = <2220>;
+			stride = <4320>;
+			format = "a8r8g8b8";
+		};
+
+	};
+
+	reserved-memory {
+		#address-cells = <2>;
+		#size-cells = <1>;
+		ranges;
+
+		framebuffer_region@ec000000 {
+			reg = <0x0 0xec000000 0x00925680>;
+			no-map;
+		};
 	};
 
 	memory@80000000 {
