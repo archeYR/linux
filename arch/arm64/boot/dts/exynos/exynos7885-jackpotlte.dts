@@ -90,6 +90,16 @@
 		compatible = "regulator-fixed";
 		regulator-name = "dummy_reg";
 	};
+
+	tsp_ldo_en: tsp_ldo_en {
+		compatible = "regulator-fixed";
+		regulator-name = "tsp_ldo_en";
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <1800000>;
+		gpio = <&gpg3 0 0>;
+		enable-active-high;
+//		regulator-boot-on;
+	};
 };
 
 &mmc_0 {
@@ -141,6 +151,22 @@
 
 &serial_2 {
 	status = "okay";
+};
+
+&i2c_4 {
+	status = "okay";
+	samsung,i2c-sda-delay = <100>;
+	samsung,i2c-max-bus-freq = <400000>;
+	touchscreen@48 {
+		status = "okay";
+		compatible = "samsung,s6sy761";
+		reg = <0x48>;
+		interrupt-parent = <&gpa0>;
+		interrupts = <0 IRQ_TYPE_NONE>;
+		avdd-supply = <&tsp_ldo_en>;
+		touchscreen-size-x = <4096>;
+		touchscreen-size-y = <4096>;
+	};
 };
 
 &usbdrd {
