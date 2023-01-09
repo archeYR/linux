@@ -85,6 +85,7 @@
 /* Supported device IDs */
 #define PCI_DEVICE_ID_PENWELL	0x0828
 #define PCI_DEVICE_ID_TANGIER	0x11a1
+#define PCI_DEVICE_ID_CLOVERVIEW	0x08ec
 
 struct mid_pwr_dev {
 	struct pci_dev *pdev;
@@ -473,6 +474,7 @@ static const struct mid_pwr_device_info tng_info = {
 static const struct pci_device_id mid_pwr_pci_ids[] = {
 	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_PENWELL), (kernel_ulong_t)&pnw_info },
 	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_TANGIER), (kernel_ulong_t)&tng_info },
+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_CLOVERVIEW), (kernel_ulong_t)&pnw_info },
 	{}
 };
 
