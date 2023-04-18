@@ -26,6 +26,40 @@
 		default-brightness-level = <128>;
 	};
 
+	/* left AW8736 */
+	speaker_amp_left: audio-amplifier-left {
+		compatible = "awinic,aw8738";
+
+		pinctrl-0 = <&spk_ext_pa_left_default>;
+		pinctrl-names = "default";
+
+		mode-gpios = <&tlmm 10 GPIO_ACTIVE_HIGH>;
+		awinic,mode = <3>;
+		sound-name-prefix = "Speaker Amp L";
+	};
+
+	/* right AW8736 */
+	speaker_amp_right: audio-amplifier-right {
+		compatible = "awinic,aw8738";
+
+		pinctrl-0 = <&spk_ext_pa_right_default>;
+		pinctrl-names = "default";
+
+		mode-gpios = <&tlmm 11 GPIO_ACTIVE_HIGH>;
+		awinic,mode = <3>;
+		sound-name-prefix = "Speaker Amp R";
+	};
+
+	headphones_switch: audio-switch {
+		compatible = "simple-audio-amplifier";
+
+		pinctrl-0 = <&headphones_switch_default>;
+		pinctrl-names = "default";
+
+		enable-gpios = <&tlmm 52 GPIO_ACTIVE_HIGH>;
+		sound-name-prefix = "Headphones Switch";
+	};
+
 	battery: battery {
 		compatible = "simple-battery";
 		device-chemistry = "lithium-ion-polymer";
@@ -222,6 +256,10 @@
 	status = "okay";
 };
 
+&pm8916_codec {
+	qcom,hphl-jack-type-normally-open;
+};
+
 &pm8916_pwm {
 	pinctrl-0 = <&pwm_out>;
 	pinctrl-names = "default";
@@ -254,6 +292,29 @@
 	pinctrl-names = "default", "sleep";
 	non-removable;
 	status = "okay";
+};
+
+&sound {
+	status = "okay";
+
+	model = "wt82918";
+	widgets =
+		"Speaker", "Speaker",
+		"Headphone", "Headphones";
+	pin-switches = "Speaker", "Headphones";
+	audio-routing =
+		"Speaker", "Speaker Amp L OUT",
+		"Speaker", "Speaker Amp R OUT",
+		"Speaker Amp L IN", "HPH_L",
+		"Speaker Amp R IN", "HPH_R",
+		"Headphones", "Headphones Switch OUTL",
+		"Headphones", "Headphones Switch OUTR",
+		"Headphones Switch INL", "HPH_L",
+		"Headphones Switch INR", "HPH_R",
+		"AMIC1", "MIC BIAS External1",
+		"AMIC2", "MIC BIAS Internal2",
+		"AMIC3", "MIC BIAS External1";
+	aux-devs = <&speaker_amp_left>, <&speaker_amp_right>, <&headphones_switch>;
 };
 
 &usb {
@@ -306,6 +367,13 @@
 		bias-disable;
 	};
 
+	headphones_switch_default: headphones-switch-default-state {
+		pins = "gpio52";
+		function = "gpio";
+		drive-strength = <2>;
+		bias-disable;
+	};
+
 	mdss_default: mdss-default-state {
 		pins = "gpio25";
 		function = "gpio";
@@ -322,6 +390,20 @@
 
 	reg_lcd_en_default: reg-lcd-en-default-state {
 		pins = "gpio0", "gpio1";
+		function = "gpio";
+		drive-strength = <2>;
+		bias-disable;
+	};
+
+	spk_ext_pa_left_default: spk-ext-pa-left-default-state {
+		pins = "gpio10";
+		function = "gpio";
+		drive-strength = <2>;
+		bias-disable;
+	};
+
+	spk_ext_pa_right_default: spk-ext-pa-right-default-state {
+		pins = "gpio11";
 		function = "gpio";
 		drive-strength = <2>;
 		bias-disable;
