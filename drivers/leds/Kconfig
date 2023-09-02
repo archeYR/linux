@@ -173,6 +173,16 @@ config LEDS_CR0014114
 	  To compile this driver as a module, choose M here: the module
 	  will be called leds-cr0014114.
 
+config LEDS_CY8C
+	tristate "LED Support for Nvidia CY8C"
+	depends on LEDS_CLASS
+	depends on I2C
+	depends on OF
+	select REGMAP_I2C
+	help
+	  This option enables support for Nvidia CY8C I2C LED controller
+	  used for the lightbar on Nvidia SHIELD TV.
+
 config LEDS_EL15203000
 	tristate "LED Support for Crane EL15203000"
 	depends on LEDS_CLASS
