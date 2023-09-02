@@ -88,6 +88,7 @@ obj-$(CONFIG_RC_MAP) += \
 			rc-nec-terratec-cinergy-xs.o \
 			rc-norwood.o \
 			rc-npgtech.o \
+			rc-nvidia-nec.o \
 			rc-odroid.o \
 			rc-pctv-sedna.o \
 			rc-pine64.o \

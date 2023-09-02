@@ -1939,6 +1939,14 @@
 		};
 	};
 
+	gpio-ir-receiver {
+		compatible = "gpio-ir-receiver";
+		status = "okay";
+		gpios = <&gpio TEGRA_GPIO(CC, 3) GPIO_ACTIVE_LOW>;
+		linux,autosuspend-period = <250>;
+		linux,rc-map-name = "rc-nvidia-nec";
+	};
+
 	gpio-keys {
 		compatible = "gpio-keys";
 		label = "gpio-keys";
