@@ -1411,6 +1411,10 @@
 			#interrupt-cells = <2>;
 			interrupt-controller;
 
+			/* HACK: SHIELD TV cannot poweroff using PSCI,
+			force PMIC to overtake the poweroff handler */
+			force-system-power-controller;
+
 			#gpio-cells = <2>;
 			gpio-controller;
 

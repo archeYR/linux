@@ -502,6 +502,7 @@ static int max77620_probe(struct i2c_client *client)
 	int n_mfd_cells;
 	bool pm_off;
 	int ret;
+	bool force_pm_off = false;
 
 	chip = devm_kzalloc(&client->dev, sizeof(*chip), GFP_KERNEL);
 	if (!chip)
@@ -567,9 +568,13 @@ static int max77620_probe(struct i2c_client *client)
 	}
 
 	pm_off = of_device_is_system_power_controller(client->dev.of_node);
-	if (pm_off && !pm_power_off) {
+	force_pm_off = of_property_read_bool(client->dev.of_node, "force-system-power-controller");
+	if ((pm_off && !pm_power_off) || force_pm_off) {
 		max77620_scratch = chip;
 		pm_power_off = max77620_pm_power_off;
+	}
+	else if (pm_power_off){
+		dev_err(chip->dev, "pm_power_off already claimed for %ps", pm_power_off);
 	}
 
 	return 0;
