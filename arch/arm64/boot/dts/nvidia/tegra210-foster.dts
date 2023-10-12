@@ -1364,6 +1364,18 @@
 			status = "okay";
 		};
 
+		nvjpg@54380000 {
+			status = "okay";
+		};
+
+		nvdec@54480000 {
+			status = "okay";
+		};
+
+		nvenc@544c0000 {
+			status = "okay";
+		};
+
 		sor@54580000 {
 			status = "okay";
 
