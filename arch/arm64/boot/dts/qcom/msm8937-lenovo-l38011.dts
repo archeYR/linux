@@ -83,6 +83,23 @@
 	};
 };
 
+&blsp_i2c3 {
+	status = "okay";
+
+	novatek@62 {
+		compatible = "novatek,nt36525";
+		reg = <0x62>;
+
+		pinctrl-0 = <&touchscreen_default>;
+		pinctrl-names = "default";
+
+		interrupt-parent = <&tlmm>;
+		interrupts = <65 IRQ_TYPE_EDGE_RISING>;
+
+		reset-gpios = <&tlmm 64 GPIO_ACTIVE_HIGH>;
+	};
+};
+
 &blsp_i2c5 {
 	status = "okay";
 
@@ -265,6 +282,24 @@
 	dr_mode = "peripheral";
 	extcon = <&pmi8950_usb_vbus>;
 	status = "okay";
+};
+
+&tlmm {
+	touchscreen_default: touchscreen-default-state {
+		reset-pins {
+			pins = "gpio64";
+			function = "gpio";
+			drive-strength = <2>;
+			bias-disable;
+		};
+
+		touchscreen-pins {
+			pins = "gpio65";
+			function = "gpio";
+			drive-strength = <2>;
+			bias-pull-up;
+		};
+	};
 };
 
 &usb_hs_phy {
