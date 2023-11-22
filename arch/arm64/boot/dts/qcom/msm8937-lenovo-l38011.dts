@@ -138,6 +138,10 @@
 	};
 };
 
+&pmi8950_haptics {
+	status = "okay";
+};
+
 &rpm_requests {
 	regulators-0 {
 		compatible = "qcom,rpm-pm8937-regulators";
