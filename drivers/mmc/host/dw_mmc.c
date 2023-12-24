@@ -3091,6 +3091,9 @@ static void dw_mci_init_dma(struct dw_mci *host)
 	int addr_config;
 	struct device *dev = host->dev;
 
+	if (host->quirks & DW_MMC_QUIRK_FORCE_PIO)
+		goto no_dma;
+
 	/*
 	* Check tansfer mode from HCON[17:16]
 	* Clear the ambiguous description of dw_mmc databook:
@@ -3326,6 +3329,9 @@ static struct dw_mci_board *dw_mci_parse_dt(struct dw_mci *host)
 
 	if (device_property_present(dev, "fifo-watermark-aligned"))
 		host->wm_aligned = true;
+
+	if (device_property_present(dev, "pio-mode"))
+		host->quirks |= DW_MMC_QUIRK_FORCE_PIO;
 
 	if (!device_property_read_u32(dev, "clock-frequency", &clock_frequency))
 		pdata->bus_hz = clock_frequency;
