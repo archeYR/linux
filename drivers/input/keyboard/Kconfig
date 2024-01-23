@@ -422,6 +422,17 @@ config KEYBOARD_MAX7359
 	  To compile this driver as a module, choose M here: the
 	  module will be called max7359_keypad.
 
+config KEYBOARD_MIP4_TOUCHKEY
+	tristate "MELFAS MIP4 Touchkey"
+	depends on I2C
+	help
+	  Say Y here for MELFAS MIP4 compatible touchkey controller support.
+
+	  If unsure, say N.
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called mip4_touchkey.
+
 config KEYBOARD_MPR121
 	tristate "Freescale MPR121 Touchkey"
 	depends on I2C
