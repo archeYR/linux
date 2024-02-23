@@ -36,6 +36,7 @@ obj-$(CONFIG_DRM_PANEL_WINGTECH_AUO_R61308) += panel-wingtech-auo-r61308.o
 obj-$(CONFIG_DRM_PANEL_WINGTECH_BOE_HX8394F) += panel-wingtech-boe-hx8394f.o
 obj-$(CONFIG_DRM_PANEL_WINGTECH_BOE_NT35521S) += panel-wingtech-boe-nt35521s.o
 obj-$(CONFIG_DRM_PANEL_WINGTECH_EBBG_OTM1285A) += panel-wingtech-ebbg-otm1285a.o
+obj-$(CONFIG_DRM_PANEL_WINGTECH_OTM_ILI9881C) += panel-wingtech-otm-ili9881c.o
 obj-$(CONFIG_DRM_PANEL_WINGTECH_QIMEI_ILI9881) += panel-wingtech-qimei-ili9881.o
 obj-$(CONFIG_DRM_PANEL_WINGTECH_SHARP_R69431) += panel-wingtech-sharp-r69431.o
 obj-$(CONFIG_DRM_PANEL_WINGTECH_TIANMA_HX8394D) += panel-wingtech-tianma-hx8394d.o
