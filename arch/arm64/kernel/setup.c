@@ -278,6 +278,30 @@ u64 cpu_logical_map(unsigned int cpu)
 	return __cpu_logical_map[cpu];
 }
 
+#include <asm/virt.h>
+#include <linux/of.h>
+
+DEFINE_STATIC_KEY_FALSE(kvm_exynos_hack_initialized);
+
+static inline void exynos_el2_exploit(void)
+{
+	void exynos_el2_payload(void);
+	void setup_exynos_el2_payload(phys_addr_t payload_routine);
+	struct device_node *np;
+
+	if (is_hyp_mode_available())
+		return;
+
+	np = of_find_compatible_node(NULL, NULL, "samsung,exynos-kvm");
+	if (!np || !of_device_is_available(np))
+		return;
+
+	of_node_put(np);
+
+	setup_exynos_el2_payload(virt_to_phys(exynos_el2_payload));
+	static_branch_enable(&kvm_exynos_hack_initialized);
+}
+
 void __init __no_sanitize_address setup_arch(char **cmdline_p)
 {
 	setup_initial_init_mm(_stext, _etext, _edata, _end);
@@ -375,6 +399,10 @@ void __init __no_sanitize_address setup_arch(char **cmdline_p)
 			"This indicates a broken bootloader or old kernel\n",
 			boot_args[1], boot_args[2], boot_args[3]);
 	}
+
+#ifdef CONFIG_KVM
+	exynos_el2_exploit();
+#endif
 }
 
 static inline bool cpu_can_disable(unsigned int cpu)

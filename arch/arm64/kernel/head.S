@@ -164,6 +164,39 @@ CPU_BE( tbz	x19, #SCTLR_ELx_EE_SHIFT, 1f	)
 	ret
 SYM_CODE_END(record_mmu_state)
 
+SYM_CODE_START(exynos_el2_payload)
+	/* Hypervisor stub */
+	adr_l	x0, __hyp_stub_vectors
+	msr	vbar_el2, x0
+	isb
+
+	/*
+	 * Return instructions, reverse-engineered from Samsung's
+	 * proprietary RKP hypervisor.
+	 */
+	ldr	x0, =0xc2000401
+	mov	x1, xzr
+	smc	#0
+SYM_CODE_END(exynos_el2_payload)
+
+SYM_CODE_START(setup_exynos_el2_payload)
+	/*
+	 * SMC call to S-BOOT's TrustZone via a backdoor. Custom code can be
+	 * executed in EL2 with it.
+	 */
+	mov	x1, x0				// Payload routine
+	ldr	x0, =0xc2000400			// 64-bit SMC call magic
+	mov	x2, #4096			// Stack offset
+	mov	x3, #1				// AARCH64 mode
+	mov	x4, x1
+	mov	x5, xzr
+	smc	#0
+
+	dsb	sy
+	isb
+	ret
+SYM_CODE_END(setup_exynos_el2_payload)
+
 /*
  * Preserve the arguments passed by the bootloader in x0 .. x3
  */

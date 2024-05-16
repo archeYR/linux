@@ -82,11 +82,18 @@ void __hyp_reset_vectors(void);
 bool is_kvm_arm_initialised(void);
 
 DECLARE_STATIC_KEY_FALSE(kvm_protected_mode_initialized);
+DECLARE_STATIC_KEY_FALSE(kvm_exynos_hack_initialized);
 
 static inline bool is_pkvm_initialized(void)
 {
 	return IS_ENABLED(CONFIG_KVM) &&
 	       static_branch_likely(&kvm_protected_mode_initialized);
+}
+
+static inline bool is_exynos_kvm_initialized(void)
+{
+	return IS_ENABLED(CONFIG_KVM) &&
+	       static_branch_likely(&kvm_exynos_hack_initialized);
 }
 
 /* Reports the availability of HYP mode */
@@ -97,6 +104,10 @@ static inline bool is_hyp_mode_available(void)
 	 * in EL2. Avoid checking __boot_cpu_mode as CPUs now come up in EL1.
 	 */
 	if (is_pkvm_initialized())
+		return true;
+
+	/* KVM brought up from EL2 using a TrustZone backdoor */
+	if (is_exynos_kvm_initialized())
 		return true;
 
 	return (__boot_cpu_mode[0] == BOOT_CPU_MODE_EL2 &&
