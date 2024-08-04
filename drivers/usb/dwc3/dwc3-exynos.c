@@ -210,6 +210,9 @@ static const struct of_device_id exynos_dwc3_match[] = {
 		.compatible = "samsung,exynos7870-dwusb3",
 		.data = &exynos7870_drvdata,
 	}, {
+		.compatible = "samsung,exynos7885-dwusb3",
+		.data = &exynos850_drvdata,
+	}, {
 		.compatible = "samsung,exynos850-dwusb3",
 		.data = &exynos850_drvdata,
 	}, {
