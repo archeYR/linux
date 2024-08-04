@@ -19,6 +19,7 @@ properties:
           - samsung,exynos5433-dwusb3
           - samsung,exynos7-dwusb3
           - samsung,exynos7870-dwusb3
+          - samsung,exynos7885-dwusb3
           - samsung,exynos850-dwusb3
           - samsung,exynosautov920-dwusb3
       - items:
@@ -167,7 +168,9 @@ allOf:
       properties:
         compatible:
           contains:
-            const: samsung,exynos850-dwusb3
+            enum:
+              - samsung,exynos7885-dwusb3
+              - samsung,exynos850-dwusb3
     then:
       properties:
         clocks:
