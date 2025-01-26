@@ -89,10 +89,12 @@ static const struct afs_operation_ops afs_store_data_operation = {
  */
 void afs_prepare_write(struct netfs_io_subrequest *subreq)
 {
+	struct netfs_io_stream *stream = &subreq->rreq->io_streams[subreq->stream_nr];
+
 	//if (test_bit(NETFS_SREQ_RETRYING, &subreq->flags))
 	//	subreq->max_len = 512 * 1024;
 	//else
-	subreq->max_len = 256 * 1024 * 1024;
+	stream->sreq_max_len = 256 * 1024 * 1024;
 }
 
 /*
@@ -120,7 +122,7 @@ static void afs_issue_write_worker(struct work_struct *work)
 	if (subreq->debug_index == 3)
 		return netfs_write_subrequest_terminated(subreq, -ENOANO, false);
 
-	if (!test_bit(NETFS_SREQ_RETRYING, &subreq->flags)) {
+	if (!subreq->retry_count) {
 		set_bit(NETFS_SREQ_NEED_RETRY, &subreq->flags);
 		return netfs_write_subrequest_terminated(subreq, -EAGAIN, false);
 	}
@@ -147,6 +149,9 @@ static void afs_issue_write_worker(struct work_struct *work)
 	afs_wait_for_operation(op);
 	ret = afs_put_operation(op);
 	switch (ret) {
+	case 0:
+		__set_bit(NETFS_SREQ_MADE_PROGRESS, &subreq->flags);
+		break;
 	case -EACCES:
 	case -EPERM:
 	case -ENOKEY:

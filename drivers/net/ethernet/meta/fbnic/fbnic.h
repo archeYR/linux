@@ -6,17 +6,20 @@
 
 #include <linux/interrupt.h>
 #include <linux/io.h>
+#include <linux/ptp_clock_kernel.h>
 #include <linux/types.h>
 #include <linux/workqueue.h>
 
 #include "fbnic_csr.h"
 #include "fbnic_fw.h"
+#include "fbnic_hw_stats.h"
 #include "fbnic_mac.h"
 #include "fbnic_rpc.h"
 
 struct fbnic_dev {
 	struct device *dev;
 	struct net_device *netdev;
+	struct dentry *dbg_fbd;
 
 	u32 __iomem *uc_addr0;
 	u32 __iomem *uc_addr4;
@@ -44,9 +47,23 @@ struct fbnic_dev {
 	struct fbnic_act_tcam act_tcam[FBNIC_RPC_TCAM_ACT_NUM_ENTRIES];
 	struct fbnic_mac_addr mac_addr[FBNIC_RPC_TCAM_MACDA_NUM_ENTRIES];
 	u8 mac_addr_boundary;
+	u8 tce_tcam_last;
 
 	/* Number of TCQs/RCQs available on hardware */
 	u16 max_num_queues;
+
+	/* Lock protecting writes to @time_high, @time_offset of fbnic_netdev,
+	 * and the HW time CSR machinery.
+	 */
+	spinlock_t time_lock;
+	/* Externally accessible PTP clock, may be NULL */
+	struct ptp_clock *ptp;
+	struct ptp_clock_info ptp_info;
+	/* Last @time_high refresh time in jiffies (to catch stalls) */
+	unsigned long last_read;
+
+	/* Local copy of hardware statistics */
+	struct fbnic_hw_stats hw_stats;
 };
 
 /* Reserve entry 0 in the MSI-X "others" array until we have filled all
@@ -131,6 +148,17 @@ int fbnic_request_irq(struct fbnic_dev *dev, int nr, irq_handler_t handler,
 void fbnic_free_irq(struct fbnic_dev *dev, int nr, void *data);
 void fbnic_free_irqs(struct fbnic_dev *fbd);
 int fbnic_alloc_irqs(struct fbnic_dev *fbd);
+
+void fbnic_get_fw_ver_commit_str(struct fbnic_dev *fbd, char *fw_version,
+				 const size_t str_sz);
+
+void fbnic_dbg_fbd_init(struct fbnic_dev *fbd);
+void fbnic_dbg_fbd_exit(struct fbnic_dev *fbd);
+void fbnic_dbg_init(void);
+void fbnic_dbg_exit(void);
+
+void fbnic_csr_get_regs(struct fbnic_dev *fbd, u32 *data, u32 *regs_version);
+int fbnic_csr_regs_len(struct fbnic_dev *fbd);
 
 enum fbnic_boards {
 	fbnic_board_asic

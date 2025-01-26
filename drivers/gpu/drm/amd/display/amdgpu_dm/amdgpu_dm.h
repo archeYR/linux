@@ -50,7 +50,7 @@
 
 #define AMDGPU_DM_MAX_NUM_EDP 2
 
-#define AMDGPU_DMUB_NOTIFICATION_MAX 6
+#define AMDGPU_DMUB_NOTIFICATION_MAX 7
 
 #define HDMI_AMD_VENDOR_SPECIFIC_DATA_BLOCK_IEEE_REGISTRATION_ID 0x00001A
 #define AMD_VSDB_VERSION_3_FEATURECAP_REPLAYMODE 0x40
@@ -673,7 +673,7 @@ struct amdgpu_dm_connector {
 
 	/* we need to mind the EDID between detect
 	   and get modes due to analog/digital/tvencoder */
-	struct edid *edid;
+	const struct drm_edid *drm_edid;
 
 	/* shared with amdgpu */
 	struct amdgpu_hpd hpd;
@@ -697,6 +697,8 @@ struct amdgpu_dm_connector {
 	struct drm_dp_mst_port *mst_output_port;
 	struct amdgpu_dm_connector *mst_root;
 	struct drm_dp_aux *dsc_aux;
+	uint32_t mst_local_bw;
+	uint16_t vc_full_pbn;
 	struct mutex handle_mst_msg_ready;
 
 	/* TODO see if we can merge with ddc_bus or make a dm_connector */
@@ -727,7 +729,7 @@ struct amdgpu_dm_connector {
 	/* Cached display modes */
 	struct drm_display_mode freesync_vid_base;
 
-	int psr_skip_count;
+	int sr_skip_count;
 	bool disallow_edp_enter_psr;
 
 	/* Record progress status of mst*/
@@ -951,7 +953,7 @@ void dm_restore_drm_connector_state(struct drm_device *dev,
 				    struct drm_connector *connector);
 
 void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
-					struct edid *edid);
+				    const struct drm_edid *drm_edid);
 
 void amdgpu_dm_trigger_timing_sync(struct drm_device *dev);
 
@@ -1004,6 +1006,9 @@ void *dm_allocate_gpu_mem(struct amdgpu_device *adev,
 						  enum dc_gpu_mem_alloc_type type,
 						  size_t size,
 						  long long *addr);
+void dm_free_gpu_mem(struct amdgpu_device *adev,
+						  enum dc_gpu_mem_alloc_type type,
+						  void *addr);
 
 bool amdgpu_dm_is_headless(struct amdgpu_device *adev);
 
