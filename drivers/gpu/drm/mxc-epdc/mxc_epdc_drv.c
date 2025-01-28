@@ -11,6 +11,7 @@
 
 #include <drm/drm_atomic.h>
 #include <drm/drm_atomic_helper.h>
+#include <drm/drm_client_setup.h>
 #include <drm/drm_crtc_helper.h>
 #include <drm/drm_damage_helper.h>
 #include <drm/drm_drv.h>
@@ -276,6 +277,7 @@ static struct drm_driver mxc_epdc_driver = {
 	.fops = &fops,
 	.dumb_create	    = drm_gem_dma_dumb_create,
 	.gem_prime_import_sg_table = drm_gem_dma_prime_import_sg_table,
+	DRM_FBDEV_TTM_DRIVER_OPS,
 
 	.name = DRIVER_NAME,
 	.desc = DRIVER_DESC,
@@ -332,7 +334,7 @@ static int mxc_epdc_probe(struct platform_device *pdev)
 
 	ret = drm_dev_register(&priv->drm, 0);
 
-	drm_fbdev_ttm_setup(&priv->drm, 32);
+	drm_client_setup(&priv->drm, NULL);
 	return 0;
 }
 
