@@ -1,0 +1,42 @@
+// SPDX-License-Identifier: GPL-2.0
+
+/dts-v1/;
+#include "mt8127.dtsi"
+
+/ {
+	model = "GoClever Quantum 700N";
+	compatible = "goclever,tq700n", "mediatek,mt8127";
+
+	chosen {
+		stdout-path = &framebuffer0;
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		framebuffer0: framebuffer@9ec00000 {
+			compatible = "simple-framebuffer";
+			reg = <0 0x9ec00000 0 (1024 * 600 * 2)>;
+			width = <1024>;
+			height = <600>;
+			stride = <(1024 * 2)>;
+			format = "r5g6b5";
+		};
+	};
+
+	memory {
+		device_type = "memory";
+		reg = <0 0x80000000 0 0x20000000>;
+	};
+
+	reserved-memory {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		memory@9ec00000 {
+			reg = <0 0x9ec00000 0 (1024 * 600 * 5)>;
+			no-map;
+		};
+	};
+
+};
