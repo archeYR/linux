@@ -543,6 +543,8 @@ static int lm3630a_probe(struct i2c_client *client)
 	if (IS_ERR(pchip->enable_gpio))
 		return PTR_ERR(pchip->enable_gpio);
 
+	msleep(200);
+
 	/* chip initialize */
 	rval = lm3630a_chip_init(pchip);
 	if (rval < 0) {

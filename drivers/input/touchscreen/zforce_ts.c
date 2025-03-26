@@ -200,7 +200,7 @@ static int zforce_resolution(struct zforce_ts *ts, u16 x, u16 y)
 			(x & 0xff), ((x >> 8) & 0xff),
 			(y & 0xff), ((y >> 8) & 0xff) };
 
-	dev_dbg(&client->dev, "set resolution to (%d,%d)\n", x, y);
+	dev_err(&client->dev, "set resolution to (%d,%d)\n", x, y);
 
 	return zforce_send_wait(ts, &buf[0], ARRAY_SIZE(buf));
 }
@@ -311,7 +311,7 @@ static int zforce_touch_event(struct zforce_ts *ts, u8 *payload)
 
 	count = payload[0];
 	if (count > ZFORCE_REPORT_POINTS) {
-		dev_warn(&client->dev,
+		dev_err(&client->dev,
 			 "too many coordinates %d, expected max %d\n",
 			 count, ZFORCE_REPORT_POINTS);
 		count = ZFORCE_REPORT_POINTS;
@@ -325,13 +325,23 @@ static int zforce_touch_event(struct zforce_ts *ts, u8 *payload)
 
 		if (point.coord_x > ts->prop.max_x ||
 		    point.coord_y > ts->prop.max_y) {
-			dev_warn(&client->dev, "coordinates (%d,%d) invalid\n",
+			dev_err(&client->dev, "coordinates (%d,%d) invalid\n",
 				point.coord_x, point.coord_y);
 			point.coord_x = point.coord_y = 0;
 		}
 
-		point.state = p[4] & 0x0f;
-		point.id = (p[4] & 0xf0) >> 4;
+		/* Need to figure out a better way to determine the type of payloads... */
+		if ((p[4] & 0xf0) >> 4 == 0)
+		{
+			point.state = p[4] & 0x03;
+			point.id = (p[4] & 0x0f) >> 2;
+			dev_err(&client->dev, "Version 2\n");
+		}
+		else
+		{
+			point.state = p[4] & 0x0f;
+			point.id = (p[4] & 0xf0) >> 4;
+		}
 
 		/* determine touch major, minor and orientation */
 		point.area_major = max(p[5], p[6]);
@@ -341,7 +351,7 @@ static int zforce_touch_event(struct zforce_ts *ts, u8 *payload)
 		point.pressure = p[7];
 		point.prblty = p[8];
 
-		dev_dbg(&client->dev,
+		dev_err(&client->dev,
 			"point %d/%d: state %d, id %d, pressure %d, prblty %d, x %d, y %d, amajor %d, aminor %d, ori %d\n",
 			i, count, point.state, point.id,
 			point.pressure, point.prblty,
@@ -519,7 +529,7 @@ static irqreturn_t zforce_irq_thread(int irq, void *dev_id)
 			ts->version_rev =
 				get_unaligned_le16(&payload[RESPONSE_DATA + 6]);
 
-			dev_dbg(&ts->client->dev,
+			dev_err(&ts->client->dev,
 				"Firmware Version %04x:%04x %04x:%04x\n",
 				ts->version_major, ts->version_minor,
 				ts->version_build, ts->version_rev);

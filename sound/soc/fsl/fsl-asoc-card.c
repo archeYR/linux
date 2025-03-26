@@ -29,6 +29,7 @@
 #include "../codecs/tlv320aic31xx.h"
 #include "../codecs/nau8822.h"
 #include "../codecs/wm8904.h"
+#include "../codecs/rt5640.h"
 
 #define DRIVER_NAME "fsl-asoc-card"
 
@@ -215,7 +216,10 @@ static int fsl_asoc_card_hw_params(struct snd_pcm_substream *substream,
 
 		if (codec_priv->pll_id >= 0 && codec_priv->fll_id >= 0) {
 			if (priv->sample_format == SNDRV_PCM_FORMAT_S24_LE)
-				pll_out = priv->sample_rate * 384;
+			{
+				dev_err(dev, "HAXXING PIPEWIRE!\n");
+				pll_out = priv->sample_rate * 256; //384;
+			}
 			else
 				pll_out = priv->sample_rate * 256;
 
@@ -827,6 +831,18 @@ static int fsl_asoc_card_probe(struct platform_device *pdev)
 		priv->codec_priv[0].fll_id = WM8904_CLK_FLL;
 		priv->codec_priv[0].pll_id = WM8904_FLL_MCLK;
 		priv->dai_fmt |= SND_SOC_DAIFMT_CBP_CFP;
+	} else if (of_device_is_compatible(np, "fsl,imx-audio-rt5640")) {
+		codec_dai_name[0] = "rt5640-aif1";
+		priv->dai_fmt = SND_SOC_DAIFMT_I2S |
+				SND_SOC_DAIFMT_CBP_CFP;
+		priv->codec_priv[0].mclk_id = RT5640_SCLK_S_MCLK;
+		priv->codec_priv[0].fll_id = RT5640_PLL1_S_MCLK;
+		priv->codec_priv[0].pll_id = RT5640_SCLK_S_PLL1;
+		priv->codec_priv[0].free_freq = priv->codec_priv[0].mclk_freq;
+		//priv->card.dapm_routes = audio_map_tx;
+		//priv->card.num_dapm_routes = ARRAY_SIZE(audio_map_tx);
+		priv->card.dapm_routes = NULL;
+		priv->card.num_dapm_routes = 0;
 	} else if (of_device_is_compatible(np, "fsl,imx-audio-spdif")) {
 		ret = fsl_asoc_card_spdif_init(codec_np, cpu_np, codec_dai_name, priv);
 		if (ret)
@@ -1082,6 +1098,7 @@ static const struct of_device_id fsl_asoc_card_dt_ids[] = {
 	{ .compatible = "fsl,imx-audio-wm8958", },
 	{ .compatible = "fsl,imx-audio-nau8822", },
 	{ .compatible = "fsl,imx-audio-wm8904", },
+	{ .compatible = "fsl,imx-audio-rt5640", },
 	{ .compatible = "fsl,imx-audio-spdif", },
 	{}
 };
