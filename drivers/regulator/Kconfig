@@ -1360,6 +1360,13 @@ config REGULATOR_S2MPS11
 	 Buck converters including Dual-Phase Buck converter, Buck-Boost
 	 converter, various LDOs.
 
+config REGULATOR_S2MPU08
+	tristate "Samsung S2MPU08 voltage regulator"
+	depends on MFD_S2MPU08 || COMPILE_TEST
+	help
+	 This driver supports Samsung S2MPU08 voltage output regulator
+	 via I2C bus.
+
 config REGULATOR_S5M8767
 	tristate "Samsung S5M8767A voltage regulator"
 	depends on MFD_SEC_CORE || COMPILE_TEST
