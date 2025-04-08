@@ -1,0 +1,115 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Copyright (c) 2025 Anri Dellal
+ */
+#include "exynos7885.dtsi"
+
+/ {
+	cluster_a53_opp_table: opp-table-0 {
+		compatible = "operating-points-v2";
+		opp-shared;
+
+		opp-449000000 {
+			opp-hz = /bits/ 64 <449000000>;
+			opp-microvolt = <420000>;
+		};
+		opp-546000000 {
+			opp-hz = /bits/ 64 <546000000>;
+			opp-microvolt = <420000>;
+		};
+		opp-676000000 {
+			opp-hz = /bits/ 64 <676000000>;
+			opp-microvolt = <546000>;
+		};
+		opp-757000000 {
+			opp-hz = /bits/ 64 <757000000>;
+			opp-microvolt = <546000>;
+		};
+		opp-839000000 {
+			opp-hz = /bits/ 64 <839000000>;
+			opp-microvolt = <676000>;
+		};
+		opp-902000000 {
+			opp-hz = /bits/ 64 <902000000>;
+			opp-microvolt = <676000>;
+		};
+		opp-1014000000 {
+			opp-hz = /bits/ 64 <1014000000>;
+			opp-microvolt = <845000>;
+		};
+		opp-1114000000 {
+			opp-hz = /bits/ 64 <1114000000>;
+			opp-microvolt = <845000>;
+		};
+		opp-1248000000 {
+			opp-hz = /bits/ 64 <1248000000>;
+			opp-microvolt = <1014000>;
+		};
+		opp-1352000000 {
+			opp-hz = /bits/ 64 <1352000000>;
+			opp-microvolt = <1014000>;
+		};
+	};
+
+	cluster_a73_opp_table: opp-table-1 {
+		compatible = "operating-points-v2";
+		opp-shared;
+
+		opp-728000000 {
+			opp-hz = /bits/ 64 <728000000>;
+			opp-microvolt = <420000>;
+		};
+		opp-936000000 {
+			opp-hz = /bits/ 64 <936000000>;
+			opp-microvolt = <546000>;
+		};
+		opp-1144000000 {
+			opp-hz = /bits/ 64 <1144000000>;
+			opp-microvolt = <1014000>;
+		};
+		opp-1352000000 {
+			opp-hz = /bits/ 64 <1352000000>;
+			opp-microvolt = <1352000>;
+		};
+		opp-1560000000 {
+			opp-hz = /bits/ 64 <1560000000>;
+			opp-microvolt = <1539000>;
+		};
+/*
+		opp-1664000000 {
+			opp-hz = /bits/ 64 <1664000000>;
+			opp-microvolt = <1539000>;
+		};
+		opp-1768000000 {
+			opp-hz = /bits/ 64 <1768000000>;
+			opp-microvolt = <1794000>;
+		};
+*/
+	};
+	
+};
+
+&cpu0 {
+		operating-points-v2 = <&cluster_a53_opp_table>;
+};
+&cpu1 {
+		operating-points-v2 = <&cluster_a53_opp_table>;
+};
+&cpu2 {
+	operating-points-v2 = <&cluster_a53_opp_table>;
+};
+&cpu3 {
+	operating-points-v2 = <&cluster_a53_opp_table>;
+};
+&cpu4 {
+	operating-points-v2 = <&cluster_a53_opp_table>;
+};
+&cpu5 {
+	operating-points-v2 = <&cluster_a53_opp_table>;
+};
+&cpu6 {
+	operating-points-v2 = <&cluster_a73_opp_table>;
+};
+&cpu7 {
+	operating-points-v2 = <&cluster_a73_opp_table>;
+};
