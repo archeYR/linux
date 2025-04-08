@@ -263,12 +263,28 @@
 		pinctrl_alive: pinctrl@11cb0000 {
 			compatible = "samsung,exynos7885-pinctrl";
 			reg = <0x11cb0000 0x1000>;
+			interrupts = <0 0 4>,
+					<0 1 4>,
+					<0 2 4>,
+					<0 3 4>,
+					<0 4 4>,
+					<0 5 4>,
+					<0 6 4>,
+					<0 7 4>,
+					<0 8 4>,
+					<0 9 4>,
+					<0 10 4>,
+					<0 11 4>,
+					<0 12 4>,
+					<0 13 4>,
+					<0 14 4>,
+					<0 15 4>;
 
 			wakeup-interrupt-controller {
 				compatible = "samsung,exynos7885-wakeup-eint",
 					     "samsung,exynos7-wakeup-eint";
 				interrupt-parent = <&gic>;
-				interrupts = <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>;
+				interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>;
 			};
 		};
 
