@@ -310,6 +310,20 @@
 			status = "disabled";
 		};
 
+		mmc_2: mmc@13550000 {
+			compatible = "samsung,exynos7885-dw-mshc-smu",
+				     "samsung,exynos7-dw-mshc-smu";
+			reg = <0x13550000 0x2000>;
+			interrupts = <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			clocks = <&cmu_fsys CLK_GOUT_MMC_CARD_ACLK>,
+				 <&cmu_fsys CLK_GOUT_MMC_CARD_SDCLKIN>;
+			clock-names = "biu", "ciu";
+			fifo-depth = <0x40>;
+			status = "disabled";
+		};
+
 		serial_0: serial@13800000 {
 			compatible = "samsung,exynos7885-uart",
 				     "samsung,exynos5433-uart";
