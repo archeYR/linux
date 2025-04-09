@@ -368,6 +368,27 @@
 	};
 };
 
+&i2c0 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	samsung,i2c-sda-delay = <100>;
+	samsung,i2c-max-bus-freq = <400000>;
+
+	status = "okay";
+
+	fuelgauge@3b {
+		compatible = "samsung,s2mu005-fg";
+		reg = <0x3b>;
+
+		interrupt-parent = <&gpa0>;
+		interrupts = <3 IRQ_TYPE_EDGE_BOTH>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&fuel_irq>;
+	};
+};
+
 &i2c1 {
 	#address-cells = <1>;
 	#size-cells = <0>;
@@ -405,6 +426,32 @@
 			touchscreen-x-mm = <68>;
 			touchscreen-y-mm = <121>;
 		};
+	};
+};
+
+&i2c2 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	samsung,i2c-sda-delay = <100>;
+	samsung,i2c-max-bus-freq = <400000>;
+
+	status = "okay";
+
+	/* WIP driver for touchkey */
+	touchkey@49 {
+		compatible = "melfas,mip4_touchkey";
+		reg = <0x49>;
+
+		interrupt-parent = <&gpa1>;
+		interrupts = <4 IRQ_TYPE_LEVEL_LOW>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&tkey_irq>;
+
+		vdd-supply = <&vdd_ldo34>;
+
+		linux,keycodes = <KEY_MENU>, <KEY_BACK>;
 	};
 };
 
@@ -489,6 +536,7 @@
 	non-removable;
 	cap-sd-highspeed;
 	cap-sdio-irq;
+	pio-mode;
 
 	status = "okay";
 
