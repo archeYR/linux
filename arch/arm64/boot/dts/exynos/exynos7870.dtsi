@@ -14,6 +14,11 @@
 	#address-cells = <2>;
 	#size-cells = <1>;
 
+	/* Stock Samsung bootloader looks for these properties. */
+	model_info-chip = <7870>;
+	model_info-hw_rev = <0>;
+	model_info-hw_rev_end = <255>;
+
 	interrupt-parent = <&gic>;
 
 	aliases {
