@@ -364,6 +364,27 @@
 	};
 };
 
+&i2c0 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	samsung,i2c-sda-delay = <100>;
+	samsung,i2c-max-bus-freq = <400000>;
+
+	status = "okay";
+
+	fuelgauge@3b {
+		compatible = "samsung,s2mu005-fg";
+		reg = <0x3b>;
+
+		interrupt-parent = <&gpa0>;
+		interrupts = <3 IRQ_TYPE_EDGE_FALLING>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&fuel_irq>;
+	};
+};
+
 &i2c5 {
 	#address-cells = <1>;
 	#size-cells = <0>;
@@ -473,6 +494,7 @@
 	non-removable;
 	cap-sd-highspeed;
 	cap-sdio-irq;
+	pio-mode;
 
 	status = "okay";
 
