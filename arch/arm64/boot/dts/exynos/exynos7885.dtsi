@@ -165,6 +165,24 @@
 		};
 	};
 
+	apm_sram: sram@14B00000 {
+		compatible = "mmio-sram";
+		reg = <0x0 0x14B00000 0x28000>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges = <0x0 0x0 0x14B00000 0x28000>;
+	};
+
+	firmware {
+		acpm_ipc: power-management {
+			compatible = "google,gs101-acpm-ipc";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			mboxes = <&ap2apm_mailbox>;
+			shmem = <&apm_sram>;
+		};
+	};
+
 	soc: soc@0 {
 		compatible = "simple-bus";
 		#address-cells = <1>;
@@ -188,6 +206,15 @@
 			      <0x12306000 0x2000>;
 			interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(8) |
 						 IRQ_TYPE_LEVEL_HIGH)>;
+		};
+
+		ap2apm_mailbox: mailbox@11C40000 {
+			compatible = "google,gs101-mbox";
+			reg = <0x11C40000 0x1000>;
+			clocks = <&cmu_top CLK_GOUT_APM_MAILBOX_APM_AP_PCLK>;
+			clock-names = "pclk";
+			interrupts = <GIC_SPI 22 IRQ_TYPE_LEVEL_HIGH 0>;
+			#mbox-cells = <1>;
 		};
 
 		cmu_peri: clock-controller@10010000 {
