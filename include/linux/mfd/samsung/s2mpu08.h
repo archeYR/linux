@@ -8,6 +8,7 @@
 #define __LINUX_MFD_S2MPU08_H
 #include <linux/platform_device.h>
 #include <linux/regmap.h>
+#include <linux/firmware/samsung/exynos-acpm-protocol.h>
 
 #define SEC_REV_ID(iodev) iodev->pmic_rev
 
@@ -276,7 +277,10 @@ struct s2mpu08_dev {
 	struct i2c_client *codeca;
 	struct i2c_client *close;
 	struct mutex i2c_lock;
-	struct apm_ops *ops;
+	struct acpm_handle *acpm;
+	struct acpm_ops *ops;
+	unsigned int acpm_channel_id;
+	u8 speedy_channel;
 
 	int type;
 	int device_type;

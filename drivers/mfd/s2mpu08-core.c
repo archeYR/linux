@@ -20,18 +20,19 @@
  *
  */
 
-#include <linux/module.h>
-#include <linux/slab.h>
+#include <linux/err.h>
+#include <linux/firmware/samsung/exynos-acpm-protocol.h>
 #include <linux/i2c.h>
 #include <linux/init.h>
 #include <linux/irq.h>
 #include <linux/interrupt.h>
-#include <linux/err.h>
-#include <linux/mutex.h>
+#include <linux/module.h>
 #include <linux/mfd/core.h>
 #include <linux/mfd/samsung/s2mpu08.h>
+#include <linux/mutex.h>
 #include <linux/regulator/machine.h>
 #include <linux/rtc.h>
+#include <linux/slab.h>
 
 #ifdef CONFIG_OF
 #include <linux/of_device.h>
@@ -48,6 +49,24 @@
 #define MFD_DEV_NAME "s2mpu08"
 
 struct device_node *acpm_mfd_node;
+
+struct sec_acpm_shared_bus_context {
+	const struct acpm_handle *acpm;
+	unsigned int acpm_chan_id;
+	u8 speedy_channel;
+};
+
+struct sec_acpm_bus_context {
+	struct sec_acpm_shared_bus_context *shared;
+	u8 type;
+#define SEC_ACPM_TYPE_COMMON  0x00
+#define SEC_ACPM_TYPE_PMIC    0x01
+#define SEC_ACPM_TYPE_RTC     0x02
+#define SEC_ACPM_TYPE_METER   0x0a
+#define SEC_ACPM_TYPE_WLWP    0x0b
+#define SEC_ACPM_TYPE_TRIM    0x0f
+};
+
 
 static const struct mfd_cell s2mpu08_devs[] = {
 	{ .name = "s2mpu08-regulator", },
@@ -73,12 +92,16 @@ int s2mpu08_read_codec_reg(struct i2c_client *i2c, u8 reg, u8 *dest)
 }
 #endif
 
-#if defined(CONFIG_EXYNOS_ACPM)
+#ifdef CONFIG_EXYNOS_ACPM_PROTOCOL
 int s2mpu08_read_reg(struct i2c_client *i2c, u8 reg, u8 *dest)
 {
+	struct s2mpu08_dev *s2mpu08 = i2c_get_clientdata(i2c);
+	struct acpm_pmic_ops ops = s2mpu08->acpm->ops.pmic_ops;
 	int ret;
 
-	ret = exynos_acpm_read_reg(i2c->addr, reg, dest);
+	ret = ops.read_reg(s2mpu08->acpm, s2mpu08->acpm_channel_id,
+				i2c->addr, reg, s2mpu08->speedy_channel,
+				dest);
 	if (ret) {
 		pr_err("[%s] acpm ipc fail!\n", __func__);
 		return ret;
@@ -88,9 +111,14 @@ int s2mpu08_read_reg(struct i2c_client *i2c, u8 reg, u8 *dest)
 
 int s2mpu08_bulk_read(struct i2c_client *i2c, u8 reg, int count, u8 *buf)
 {
+	struct s2mpu08_dev *s2mpu08 = i2c_get_clientdata(i2c);
+	struct acpm_pmic_ops ops = s2mpu08->acpm->ops.pmic_ops;
 	int ret;
 
-	ret = exynos_acpm_bulk_read(i2c->addr, reg, count, buf);
+	ret = ops.bulk_read(s2mpu08->acpm, s2mpu08->acpm_channel_id,
+				i2c->addr, reg, count, s2mpu08->speedy_channel,
+				buf);
+//	ret = acpm_pmic_bulk_read(i2c->addr, reg, count, buf);
 	if (ret) {
 		pr_err("[%s] acpm ipc fail!\n", __func__);
 		return ret;
@@ -100,9 +128,14 @@ int s2mpu08_bulk_read(struct i2c_client *i2c, u8 reg, int count, u8 *buf)
 
 int s2mpu08_write_reg(struct i2c_client *i2c, u8 reg, u8 value)
 {
+	struct s2mpu08_dev *s2mpu08 = i2c_get_clientdata(i2c);
+	struct acpm_pmic_ops ops = s2mpu08->acpm->ops.pmic_ops;
 	int ret;
 
-	ret = exynos_acpm_write_reg(i2c->addr, reg, value);
+	ret = ops.write_reg(s2mpu08->acpm, s2mpu08->acpm_channel_id,
+				i2c->addr, reg, s2mpu08->speedy_channel,
+				value);
+//	ret = acpm_pmic_write_reg(i2c->addr, reg, value);
 	if (ret) {
 		pr_err("[%s] acpm ipc fail!\n", __func__);
 		return ret;
@@ -112,9 +145,14 @@ int s2mpu08_write_reg(struct i2c_client *i2c, u8 reg, u8 value)
 
 int s2mpu08_bulk_write(struct i2c_client *i2c, u8 reg, int count, u8 *buf)
 {
+	struct s2mpu08_dev *s2mpu08 = i2c_get_clientdata(i2c);
+	struct acpm_pmic_ops ops = s2mpu08->acpm->ops.pmic_ops;
 	int ret;
 
-	ret = exynos_acpm_bulk_write(i2c->addr, reg, count, buf);
+	ret = ops.bulk_write(s2mpu08->acpm, s2mpu08->acpm_channel_id,
+				i2c->addr, reg, count, s2mpu08->speedy_channel,
+				buf);
+//	ret = acpm_pmic_bulk_write(i2c->addr, reg, count, buf);
 	if (ret) {
 		pr_err("[%s] acpm ipc fail!\n", __func__);
 		return ret;
@@ -124,9 +162,14 @@ int s2mpu08_bulk_write(struct i2c_client *i2c, u8 reg, int count, u8 *buf)
 
 int s2mpu08_update_reg(struct i2c_client *i2c, u8 reg, u8 val, u8 mask)
 {
+	struct s2mpu08_dev *s2mpu08 = i2c_get_clientdata(i2c);
+	struct acpm_pmic_ops ops = s2mpu08->acpm->ops.pmic_ops;
 	int ret;
 
-	ret = exynos_acpm_update_reg(i2c->addr, reg, val, mask);
+	ret = ops.update_reg(s2mpu08->acpm, s2mpu08->acpm_channel_id,
+				i2c->addr, reg, s2mpu08->speedy_channel,
+				val, mask);
+//	ret = acpm_pmic_update_reg(i2c->addr, reg, val, mask);
 	if (ret) {
 		pr_err("[%s] acpm ipc fail!\n", __func__);
 		return ret;
@@ -406,10 +449,24 @@ static int of_s2mpu08_dt(struct device *dev,
 }
 #endif /* CONFIG_OF */
 
+/*
+static const struct acpm_ops s2mpu08_acpm_ops = {
+	{
+		.read_reg = s2mpu08_read_reg,
+		.bulk_read = s2mpu08_bulk_read,
+		.write_reg = s2mpu08_write_reg,
+		.bulk_write = s2mpu08_bulk_write,
+		.update_reg = s2mpu08_update_reg,
+	},
+};
+*/
+
 static int s2mpu08_i2c_probe(struct i2c_client *i2c)
 {
 	struct s2mpu08_dev *s2mpu08;
 	struct s2mpu08_platform_data *pdata = i2c->dev.platform_data;
+	struct sec_acpm_shared_bus_context *shared_ctx;
+	const struct acpm_handle *acpm;
 
 	u8 reg_data;
 	int ret = 0;
@@ -443,10 +500,18 @@ static int s2mpu08_i2c_probe(struct i2c_client *i2c)
 		pdata = i2c->dev.platform_data;
 	pr_err("ONEONEONE");
 
+	acpm = devm_acpm_get_by_node(&i2c->dev, acpm_mfd_node);
+	if (IS_ERR(acpm))
+		dev_err(&i2c->dev, "Could not get acpm node");
+		goto err;
+
 	s2mpu08->dev = &i2c->dev;
 	s2mpu08->i2c = i2c;
 	s2mpu08->irq = i2c->irq;
 	s2mpu08->device_type = S2MPU08X;
+	s2mpu08->acpm = acpm;
+	s2mpu08->acpm_channel_id = 2;
+	s2mpu08->speedy_channel = 0;
 
 	if (pdata) {
 		s2mpu08->pdata = pdata;
