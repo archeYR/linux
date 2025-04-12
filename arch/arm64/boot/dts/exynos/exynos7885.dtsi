@@ -337,6 +337,14 @@
 			compatible = "samsung,exynos7885-pmu",
 				     "samsung,exynos7-pmu", "syscon";
 			reg = <0x11c80000 0x10000>;
+			reboot-mode {
+				compatible = "syscon-reboot-mode";
+				offset = <0x0810>;
+				mode-charge = <0x0a>;
+				mode-fastboot = <0xfc>;
+				mode-download = <0xfe>;
+				mode-recovery = <0xff>;
+			};
 		};
 
 		mmc_0: mmc@13500000 {
