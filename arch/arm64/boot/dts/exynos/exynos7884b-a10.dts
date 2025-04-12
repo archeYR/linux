@@ -46,14 +46,49 @@
 		#address-cells = <2>;
 		#size-cells = <1>;
 		ranges;
+		sec_debug_magic: memory@80000000 {
+			reg = <0x0 0x80000000 0x1000>;
+		};
+
+		dram_test: memory@80002000 {
+			reg = <0x0 0x80002000 0x2000>;
+		};
+
+		tima_mem: memory@B8000000 {
+			reg = <0x0 0xB8000000 0x200000>;
+		};
+
+		seclog_mem: memory@C0000000 {
+			reg = <0x0 0xc0000000 0x80000>;
+		};
+
+		memory@e0000000 {
+			reg = <0x0 0xe0000000 0xd00000>;
+		};
 
 		framebuffer_region@ec000000 {
 			reg = <0x0 0xec000000 (720 * 1520 * 4)>;
 			no-map;
 		};
 		
+		wifibt_if: memory@e9000000 {
+			reg = <0x0 0xe9000000 0x400000>;
+		};
+
 		abox_rmem: memory@e9400000 {
 			reg = <0x0 0xe9400000 0x400000>;
+		};
+		
+		modem_if: memory@f5400000 {
+			reg = <0x0 0xF5400000 0x8800000>;
+		};
+
+		cp_ram_logging: memory@fdc00000 {
+			reg = <0x0 0xFDC00000 0x2000000>;
+		};
+
+		gnss_reserved: memory@ffc00000 {
+			reg = <0x0 0xFFC00000 0x400000>;
 		};
 	};
 
