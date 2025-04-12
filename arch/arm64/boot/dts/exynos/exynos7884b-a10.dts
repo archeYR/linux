@@ -39,7 +39,6 @@
 			stride = <(720 * 4)>;
 			format = "a8r8g8b8";
 		};
-
 	};
 
 	reserved-memory {
@@ -257,6 +256,13 @@
 		samsung,pin-pud = <EXYNOS_PIN_PULL_NONE>;
 		samsung,pin-drv = <EXYNOS5420_PIN_DRV_LV1>;
 	};
+
+	fuel_irq: fuel-irq-pins {
+		samsung,pins = "gpa2-4";
+		samsung,pin-function = <EXYNOS_PIN_FUNC_INPUT>;
+		samsung,pin-pud = <EXYNOS_PIN_PULL_UP>;
+		samsung,pin-drv = <EXYNOS5420_PIN_DRV_LV1>;
+	};
 };
 
 &pinctrl_top {
@@ -270,21 +276,19 @@
 	status = "okay";
 };
 
-/*
 &i2c_0 {
 	status = "okay";
 	fuelgauge@3b {
 		compatible = "samsung,s2mu005-fg";
 		reg = <0x3b>;
 
-		//interrupt-parent = <&gpa0>;
-		//interrupts = <3 IRQ_TYPE_EDGE_BOTH>;
+		interrupt-parent = <&gpa2>;
+		interrupts = <4 IRQ_TYPE_NONE>;
 
 		pinctrl-names = "default";
-		//pinctrl-0 = <&fuel_irq>;
+		pinctrl-0 = <&fuel_irq>;
 	};
-}
-*/
+};
 
 /*&i2c_1 {
 	status = "okay";
