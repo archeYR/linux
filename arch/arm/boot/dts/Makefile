@@ -1161,6 +1161,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += \
 	rk3288-veyron-tiger.dtb \
 	rk3288-vyasa.dtb
 dtb-$(CONFIG_ARCH_S3C24XX) += \
+	s3c2416-lark-freebird-43-1.dtb \
 	s3c2416-smdk2416.dtb
 dtb-$(CONFIG_ARCH_S3C64XX) += \
 	s3c6410-mini6410.dtb \
