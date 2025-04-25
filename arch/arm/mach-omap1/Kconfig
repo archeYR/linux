@@ -148,6 +148,14 @@ config MACH_NOKIA770
 	  Support for the Nokia 770 Internet Tablet. Say Y here if you
 	  have such a device.
 
+config MACH_SGH_I600
+	bool "Samsung SGH-i600"
+	depends on ARCH_OMAP16XX
+	help
+	  Support for the SGH-i600 phone. To boot the kernel, you'll
+	  need to use HaRET on Windows Mobile. Say Y here if you
+	  have such a device.
+
 config MACH_AMS_DELTA
 	bool "Amstrad E3 (Delta)"
 	depends on ARCH_OMAP15XX

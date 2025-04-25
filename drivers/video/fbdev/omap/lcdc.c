@@ -475,10 +475,11 @@ static inline void setup_regs(void)
 	omap_writel(l, OMAP_LCDC_CONTROL);
 
 	l = omap_readl(OMAP_LCDC_TIMING2);
+#if 0
 	l &= ~(((1 << 6) - 1) << 20);
 	l |= (panel->config & OMAP_LCDC_SIGNAL_MASK) << 20;
 	omap_writel(l, OMAP_LCDC_TIMING2);
-
+#endif
 	l = panel->x_res - 1;
 	l |= (panel->hsw - 1) << 10;
 	l |= (panel->hfp - 1) << 16;

@@ -18,6 +18,7 @@ objs-y$(CONFIG_FB_OMAP_LCDC_HWA742) += hwa742.o
 
 lcds-y$(CONFIG_MACH_AMS_DELTA) += lcd_ams_delta.o
 lcds-y$(CONFIG_MACH_OMAP_PALMTE) += lcd_palmte.o
+lcds-y$(CONFIG_MACH_SGH_I600) += lcd_sghi600.o
 
 lcds-y$(CONFIG_FB_OMAP_LCD_MIPID) += lcd_mipid.o
 
