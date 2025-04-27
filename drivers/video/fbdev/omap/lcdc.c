@@ -479,7 +479,7 @@ static inline void setup_regs(void)
 	l &= ~(((1 << 6) - 1) << 20);
 	l |= (panel->config & OMAP_LCDC_SIGNAL_MASK) << 20;
 	omap_writel(l, OMAP_LCDC_TIMING2);
-#endif
+
 	l = panel->x_res - 1;
 	l |= (panel->hsw - 1) << 10;
 	l |= (panel->hfp - 1) << 16;
@@ -491,7 +491,7 @@ static inline void setup_regs(void)
 	l |= panel->vfp << 16;
 	l |= panel->vbp << 24;
 	omap_writel(l, OMAP_LCDC_TIMING1);
-
+#endif
 	l = omap_readl(OMAP_LCDC_TIMING2);
 	l &= ~0xff;
 

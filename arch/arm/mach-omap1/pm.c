@@ -579,7 +579,7 @@ static int __init omap_pm_init(void)
 	    IS_ENABLED(CONFIG_OMAP_DM_TIMER)) {
 		/* OMAP16xx only */
 		pr_info("OMAP1 PM: sleep states in idle enabled\n");
-		enable_dyn_sleep = 1;
+		enable_dyn_sleep = 0;
 	}
 
 	/*
