@@ -89,7 +89,8 @@ static int __init register_mid_wdt(void)
 {
 	if (intel_mid_identify_cpu() == INTEL_MID_CPU_CHIP_TANGIER)
 		wdt_dev.dev.platform_data = &tangier_pdata;
-	else if (intel_mid_identify_cpu() == INTEL_MID_CPU_CHIP_PENWELL)
+	else if (intel_mid_identify_cpu() == INTEL_MID_CPU_CHIP_PENWELL ||
+		intel_mid_identify_cpu() == INTEL_MID_CPU_CHIP_CLOVERVIEW)
 		wdt_dev.dev.platform_data = &penwell_pdata;
 	else
 		return -ENODEV;
