@@ -29,6 +29,7 @@
 
 enum dw_pci_ctl_id_t {
 	medfield,
+	cloverview,
 	merrifield,
 	baytrail,
 	cherrytrail,
@@ -104,6 +105,28 @@ static int mfld_setup(struct pci_dev *pdev, struct dw_pci_controller *c)
 	return -ENODEV;
 }
 
+static int clv_setup(struct pci_dev *pdev, struct dw_pci_controller *c)
+{
+	struct dw_i2c_dev *dev = dev_get_drvdata(&pdev->dev);
+
+	switch (pdev->device) {
+	case 0x08E2:
+	case 0x08E3:
+	case 0x08E4:
+		c->bus_num = pdev->device - 0x08E2;
+		return 0;
+	case 0x08F4:
+		dev->timings.bus_freq_hz = I2C_MAX_STANDARD_MODE_FREQ;
+		c->bus_num = pdev->device - 0x08F4 + 3;
+		return 0;
+	case 0x08F5:
+	case 0x08F6:
+		c->bus_num = pdev->device - 0x08F4 + 3;
+		return 0;
+	}
+	return -ENODEV;
+}
+
 static int mrfld_setup(struct pci_dev *pdev, struct dw_pci_controller *c)
 {
 	/*
@@ -132,6 +155,11 @@ static struct dw_pci_controller dw_pci_controllers[] = {
 	[medfield] = {
 		.bus_num = -1,
 		.setup = mfld_setup,
+		.get_clk_rate_khz = mfld_get_clk_rate_khz,
+	},
+	[cloverview] = {
+		.bus_num = -1,
+		.setup = clv_setup,
 		.get_clk_rate_khz = mfld_get_clk_rate_khz,
 	},
 	[merrifield] = {
@@ -306,6 +334,13 @@ static const struct pci_device_id i2_designware_pci_ids[] = {
 	{ PCI_VDEVICE(INTEL, 0x082C), medfield },
 	{ PCI_VDEVICE(INTEL, 0x082D), medfield },
 	{ PCI_VDEVICE(INTEL, 0x082E), medfield },
+	/* Cloverview */
+	{ PCI_VDEVICE(INTEL, 0x08E2), cloverview },
+	{ PCI_VDEVICE(INTEL, 0x08E3), cloverview },
+	{ PCI_VDEVICE(INTEL, 0x08E4), cloverview },
+	{ PCI_VDEVICE(INTEL, 0x08F4), cloverview },
+	{ PCI_VDEVICE(INTEL, 0x08F5), cloverview },
+	{ PCI_VDEVICE(INTEL, 0x08F6), cloverview },
 	/* Merrifield */
 	{ PCI_VDEVICE(INTEL, 0x1195), merrifield },
 	{ PCI_VDEVICE(INTEL, 0x1196), merrifield },
