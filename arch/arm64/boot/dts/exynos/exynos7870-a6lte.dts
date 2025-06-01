@@ -42,6 +42,11 @@
 		};
 	};
 
+	/* non-upstreamable KVM hack */
+	exynos-kvm {
+		compatible = "samsung,exynos-kvm";
+	};
+
 	gpio-keys {
 		compatible = "gpio-keys";
 
@@ -104,6 +109,38 @@
 			reg = <0x0 0x67000000 (720 * 1480 * 4)>;
 			no-map;
 		};
+
+		reserved@f0000000 {
+			compatible = "sipc_firmware";
+			reg = <0x0 0xf0000000 0x7400000>;
+			no-map;
+		};
+
+		reserved@f7400000 {
+			compatible = "sipc_ipc";
+			reg = <0x0 0xf7400000 0x400000>;
+			no-map;
+		};
+	};
+
+	/*
+	 * Cellular modem. The driver is out-of-tree, so everything is subject
+	 * to change. Also no clocks are specified, so you must use
+	 * clk_ignore_unused for now.
+	 */
+	sipc-modem@10500000 {
+		compatible = "samsung,ss310ap-modem";
+		reg = <0x0 0x10500000 0x180>,
+		      <0x0 0xf0000000 0x7400000>,
+		      <0x0 0xf7400000 0x400000>;
+		interrupts = <GIC_SPI 369 IRQ_TYPE_LEVEL_HIGH>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&hsi2c0_bus>;
+
+		clocks = <&cmu_mif CLK_GOUT_MIF_MUX_MEDIA_PLL>;
+
+		samsung,pmu-syscon = <&pmu_system_controller>;
 	};
 
 	vibrator {
@@ -347,6 +384,27 @@
 	};
 };
 
+&i2c0 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	samsung,i2c-sda-delay = <100>;
+	samsung,i2c-max-bus-freq = <400000>;
+
+	status = "okay";
+
+	fuelgauge@3b {
+		compatible = "samsung,s2mu005-fg";
+		reg = <0x3b>;
+
+		interrupt-parent = <&gpa0>;
+		interrupts = <3 IRQ_TYPE_EDGE_FALLING>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&fuel_irq>;
+	};
+};
+
 &i2c6 {
 	#address-cells = <1>;
 	#size-cells = <0>;
@@ -406,6 +464,7 @@
 	non-removable;
 	cap-sd-highspeed;
 	cap-sdio-irq;
+	pio-mode;
 
 	status = "okay";
 
