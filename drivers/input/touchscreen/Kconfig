@@ -388,8 +388,8 @@ config TOUCHSCREEN_GOODIX
 	depends on I2C
 	depends on GPIOLIB || COMPILE_TEST
 	help
-	  Say Y here if you have the Goodix touchscreen (such as one
-	  installed in Onda v975w tablets) connected to your
+	  Say Y here if you have one of the Goodix GT9xx touchscreens
+	  (such as one installed in Onda v975w tablet) connected to your
 	  system. It also supports 5-finger chip models, which can be
 	  found on ARM tablets, like Wexler TAB7200 and MSI Primo73.
 
@@ -397,6 +397,19 @@ config TOUCHSCREEN_GOODIX
 
 	  To compile this driver as a module, choose M here: the
 	  module will be called goodix.
+
+config TOUCHSCREEN_GT801_2PLUS1
+	tristate "Goodix GT801 2+1 I2C touchscreen"
+	depends on I2C
+	help
+	  Say Y here if you have the Goodix GT801 2+1 touchscreen.
+	  This controller is found on some older ARM tablets like
+	  (Gemei G9 and Zareason Zatab).
+
+	  If unsure, say N.
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called gt801_2plus1.
 
 config TOUCHSCREEN_GOODIX_BERLIN_CORE
 	tristate

@@ -1,0 +1,23 @@
+Device tree bindings for Goodix GT801 2+1 series touchscreen controller
+
+Required properties:
+
+ - compatible		: Should be "goodix,gt801_2plus1"
+ - reg			: I2C address of the chip. Should be 0x55
+ - interrupt-parent	: Interrupt controller to which the chip is connected
+ - interrupts		: Interrupt to which the chip is connected
+
+Example:
+
+	i2c at 00000000 {
+		/* ... */
+
+		touchscreen at 55 {
+			compatible = "goodix,gt801_2plus1";
+			reg = <0x55>;
+			interrupt-parent = <&gpio>;
+			interrupts = <0 0>;
+		};
+
+		/* ... */
+	};
