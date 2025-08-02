@@ -213,7 +213,7 @@
 			reg = <0x11C40000 0x1000>;
 			clocks = <&cmu_top CLK_GOUT_APM_MAILBOX_APM_AP_PCLK>;
 			clock-names = "pclk";
-			interrupts = <GIC_SPI 22 IRQ_TYPE_LEVEL_HIGH 0>;
+			interrupts = <GIC_SPI 22 IRQ_TYPE_LEVEL_HIGH>;
 			#mbox-cells = <0>;
 		};
 
