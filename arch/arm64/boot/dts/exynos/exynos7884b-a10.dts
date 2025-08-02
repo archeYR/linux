@@ -41,6 +41,11 @@
 		};
 	};
 
+	/* non-upstreamable KVM hack */
+	exynos-kvm {
+		compatible = "samsung,exynos-kvm";
+	};
+
 	reserved-memory {
 		#address-cells = <2>;
 		#size-cells = <1>;
