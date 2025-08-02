@@ -155,6 +155,9 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder,
 		val |= SUN4I_HDMI_VID_CTRL_HDMI_MODE;
 
 	writel(val, hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
+
+	if (display->has_audio && sun4i_hdmi_audio_create(hdmi))
+		DRM_ERROR("Couldn't create the HDMI audio adapter\n");
 }
 
 static const struct drm_encoder_helper_funcs sun4i_hdmi_helper_funcs = {

@@ -42,7 +42,32 @@
 #define SUN4I_HDMI_VID_TIMING_POL_VSYNC		BIT(1)
 #define SUN4I_HDMI_VID_TIMING_POL_HSYNC		BIT(0)
 
+#define SUN4I_HDMI_AUDIO_CTRL_REG	0x040
+#define SUN4I_HDMI_AUDIO_CTRL_ENABLE		BIT(31)
+#define SUN4I_HDMI_AUDIO_CTRL_RESET		BIT(30)
+
+#define SUN4I_HDMI_AUDIO_FMT_REG	0x048
+#define SUN4I_HDMI_AUDIO_FMT_SRC		BIT(31)
+#define SUN4I_HDMI_AUDIO_FMT_LAYOUT		BIT(3)
+#define SUN4I_HDMI_AUDIO_FMT_CH_CFG(n)		(n - 1)
+#define SUN4I_HDMI_AUDIO_FMT_CH_CFG_MASK	GENMASK(2, 0)
+
+#define SUN4I_HDMI_AUDIO_PCM_REG	0x4c
+#define SUN4I_HDMI_AUDIO_PCM_CH_MAP(n, m)	((m - 1) << (n * 4))
+#define SUN4I_HDMI_AUDIO_PCM_CH_MAP_MASK(n)	(GENMASK(2, 0) << (n * 4))
+
+#define SUN4I_HDMI_AUDIO_CTS_REG	0x050
+#define SUN4I_HDMI_AUDIO_CTS(n)			(n & GENMASK(19, 0))
+
+#define SUN4I_HDMI_AUDIO_N_REG		0x054
+#define SUN4I_HDMI_AUDIO_N(n)			(n & GENMASK(19, 0))
+
+#define SUN4I_HDMI_AUDIO_STAT0_REG	0x58
+#define SUN4I_HDMI_AUDIO_STAT0_FREQ(n)		(n << 24)
+#define SUN4I_HDMI_AUDIO_STAT0_FREQ_MASK	GENMASK(27, 24)
+
 #define SUN4I_HDMI_AVI_INFOFRAME_REG(n)	(0x080 + (n))
+#define SUN4I_HDMI_AUDIO_INFOFRAME_REG(n)	(0x0a0 + (n))
 
 #define SUN4I_HDMI_PAD_CTRL0_REG	0x200
 #define SUN4I_HDMI_PAD_CTRL0_BIASEN		BIT(31)
@@ -283,6 +308,8 @@ struct sun4i_hdmi {
 	struct regmap_field	*field_ddc_sda_en;
 	struct regmap_field	*field_ddc_sck_en;
 
+	u8			hdmi_audio_channels;
+
 	struct sun4i_drv	*drv;
 
 	struct cec_adapter	*cec_adap;
@@ -293,5 +320,6 @@ struct sun4i_hdmi {
 int sun4i_ddc_create(struct sun4i_hdmi *hdmi, struct clk *clk);
 int sun4i_tmds_create(struct sun4i_hdmi *hdmi);
 int sun4i_hdmi_i2c_create(struct device *dev, struct sun4i_hdmi *hdmi);
+int sun4i_hdmi_audio_create(struct sun4i_hdmi *hdmi);
 
 #endif /* _SUN4I_HDMI_H_ */

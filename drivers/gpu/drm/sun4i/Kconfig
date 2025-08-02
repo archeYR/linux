@@ -22,6 +22,7 @@ config DRM_SUN4I_HDMI
 	select DRM_DISPLAY_HDMI_HELPER
 	select DRM_DISPLAY_HDMI_STATE_HELPER
 	select DRM_DISPLAY_HELPER
+	select SND_PCM_ELD
 	default DRM_SUN4I
 	help
 	  Choose this option if you have an Allwinner A10/A10s/A20/A31
