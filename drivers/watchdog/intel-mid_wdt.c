@@ -104,7 +104,7 @@ static int wdt_stop(struct watchdog_device *wd)
 
 static irqreturn_t mid_wdt_irq(int irq, void *dev_id)
 {
-	panic("Kernel Watchdog");
+	//panic("Kernel Watchdog");
 
 	/* This code should not be reached */
 	return IRQ_HANDLED;
