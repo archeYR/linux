@@ -106,6 +106,16 @@ static void dwc2_set_s3c6400_params(struct dwc2_hsotg *hsotg)
 	p->phy_utmi_width = 8;
 }
 
+static void dwc2_set_s5l8702_params(struct dwc2_hsotg *hsotg)
+{
+	struct dwc2_core_params *p = &hsotg->params;
+
+	p->speed = DWC2_SPEED_PARAM_HIGH;
+	p->otg_caps.hnp_support = true;
+	p->otg_caps.srp_support = true;
+	p->phy_utmi_width = 16;
+}
+
 static void dwc2_set_socfpga_agilex_params(struct dwc2_hsotg *hsotg)
 {
 	struct dwc2_core_params *p = &hsotg->params;
@@ -322,6 +332,8 @@ const struct of_device_id dwc2_of_match_table[] = {
 	{ .compatible = "snps,dwc2" },
 	{ .compatible = "samsung,s3c6400-hsotg",
 	  .data = dwc2_set_s3c6400_params },
+	{ .compatible = "apple,s5l87xx-usb",
+	  .data = dwc2_set_s5l8702_params },
 	{ .compatible = "amlogic,meson8-usb",
 	  .data = dwc2_set_amlogic_params },
 	{ .compatible = "amlogic,meson8b-usb",

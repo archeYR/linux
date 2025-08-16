@@ -779,4 +779,10 @@ config NXP_STM_TIMER
           Enables the support for NXP System Timer Module found in the
           s32g NXP platform series.
 
+config CLKSRC_APPLE_S5L8930
+	bool "Clocksource for Apple S5L8930"
+	depends on HAS_IOMEM
+	select TIMER_OF
+	select CLKSRC_MMIO
+
 endmenu

@@ -1,0 +1,53 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * N90AP - Apple iPhone 4
+ *
+ * Copyright (c) 2018 Joey Hewitt
+ *
+ */
+/dts-v1/;
+#include "s5l8930.dtsi"
+
+/ {
+	model = "Apple iPhone 4";
+	compatible = "apple,n90", "samsung,s5l8930";
+	chassis-type = "handset";
+
+	chosen {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		framebuffer@f700000 {
+			compatible = "simple-framebuffer";
+			reg = <0xf700000 (640 * 960 * 4)>; // see reserved-memory: fbmem
+			width = <640>;
+			height = <960>;
+			stride = <(640 * 4)>;
+			format = "x8r8g8b8";
+		};
+	};
+
+	memory@0 {
+		device_type = "memory";
+		reg = <0 0x20000000>;
+	};
+
+	reserved-memory {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		fbmem: fbmem@f700000 {
+			reg = <0xf700000 (640 * 960 * 4)>;
+			no-map;
+		};
+
+		ramoops: ramoops@ffe0000 {
+			compatible = "ramoops";
+			reg = <0xffe0000 0x20000>; // 128kB
+			record-size = <0x4000>; // 16kB
+			console-size = <0x4000>;
+		};
+	};
+};

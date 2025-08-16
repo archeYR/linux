@@ -1,0 +1,8 @@
+menuconfig ARCH_S5L8930
+	bool "Apple S5L8930"
+	depends on ARCH_MULTI_V7
+	select ARM_VIC
+	select PLAT_SAMSUNG
+	select CLKSRC_APPLE_S5L8930
+	help
+	  Apple S5L8930.

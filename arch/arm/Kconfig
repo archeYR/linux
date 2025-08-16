@@ -294,7 +294,7 @@ config PHYS_OFFSET
 	hex "Physical address of main memory" if MMU
 	depends on !ARM_PATCH_PHYS_VIRT || !AUTO_ZRELADDR
 	default DRAM_BASE if !MMU
-	default 0x00000000 if ARCH_FOOTBRIDGE
+	default 0x00000000 if ARCH_FOOTBRIDGE || ARCH_S5L8930
 	default 0x10000000 if ARCH_OMAP1 || ARCH_RPC
 	default 0xa0000000 if ARCH_PXA
 	default 0xc0000000 if ARCH_EP93XX || ARCH_SA1100
@@ -440,6 +440,8 @@ source "arch/arm/mach-rpc/Kconfig"
 source "arch/arm/mach-rockchip/Kconfig"
 
 source "arch/arm/mach-s3c/Kconfig"
+
+source "arch/arm/mach-s5l8930/Kconfig"
 
 source "arch/arm/mach-s5pv210/Kconfig"
 

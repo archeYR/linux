@@ -1,0 +1,110 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Samsung's S5L8930 SoC device tree source
+ *
+ * Copyright (c) 2018 Joey Hewitt
+ *
+ */
+
+/ {
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		cpu@0 {
+			device_type = "cpu";
+			compatible = "arm,cortex-a8";
+			reg = <0>;
+		};
+	};
+
+	soc {
+		compatible = "simple-bus";
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		uart0: serial@82500000 {
+			compatible = "apple,s5l-uart";
+			reg = <0x82500000 0x1000>;
+			reg-io-width = <4>;
+			id = <0>;
+			interrupt-parent = <&vic0>;
+			interrupts = <0x16>;
+			clocks = <&osc24M>;
+			clock-names = "uart";
+		};
+
+		vic0: interrupt-controller@BF200000 {
+			compatible = "arm,pl192-vic";
+			interrupt-controller;
+			reg = <0xBF200000 0x1000>;
+			#interrupt-cells = <1>;
+		};
+		vic1: interrupt-controller@BF210000 {
+			compatible = "arm,pl192-vic";
+			interrupt-controller;
+			reg = <0xBF210000 0x1000>;
+			#interrupt-cells = <1>;
+		};
+		vic2: interrupt-controller@BF220000 {
+			compatible = "arm,pl192-vic";
+			interrupt-controller;
+			reg = <0xBF220000 0x1000>;
+			#interrupt-cells = <1>;
+		};
+		vic3: interrupt-controller@BF230000 {
+			compatible = "arm,pl192-vic";
+			interrupt-controller;
+			reg = <0xBF230000 0x1000>;
+			#interrupt-cells = <1>;
+		};
+
+		timer0: timer@BF102000 {
+			compatible = "apple,s5l8930-timer";
+			reg = <0xBF102000 0x4000>;
+			clocks = <&osc24M>;
+			interrupt-parent = <&vic0>;
+			interrupts = <0x6>;
+		};
+
+	};
+
+	clocks {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		osc24M: osc24M {
+			#clock-cells = <0>;
+			compatible = "fixed-clock";
+			clock-frequency = <24000000>;
+		};
+	};
+
+	usbphy: usbphy@86000000 {
+		compatible = "apple,s5l8702-otgphy";
+		reg = <0x86000000 0x1000>;
+		status = "okay";
+		#phy-cells = <0>;
+	};
+
+	usbotg_hs: usb@86100000 {
+		compatible = "apple,s5l87xx-usb";
+		reg = <0x86100000 0x40000>;
+		interrupt-parent = <&vic0>;
+		interrupts = <0xd>;
+		phys = <&usbphy>;
+		phy-names = "usb2-phy";
+		clocks = <&osc24M>;
+		clock-names = "otg";
+		g-rx-fifo-size = <283>;
+		g-np-tx-fifo-size = <256>;
+		g-tx-fifo-size = <64 64 64 128 128 128 256 256 384>; // total fifo depth: 1485
+		status = "okay";
+		dr_mode = "peripheral";
+	};
+};

@@ -1,0 +1,53 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * K48AP - Apple iPad 1
+ *
+ * Copyright (c) 2018 Joey Hewitt
+ *
+ */
+/dts-v1/;
+#include "s5l8930.dtsi"
+
+/ {
+	model = "Apple iPad";
+	compatible = "apple,k48", "samsung,s5l8930";
+	chassis-type = "tablet";
+
+	chosen {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		framebuffer@f700000 {
+			compatible = "simple-framebuffer";
+			reg = <0xf700000 (1024 * 768 * 4)>; // see reserved-memory: fbmem
+			width = <1024>;
+			height = <768>;
+			stride = <(1024 * 4)>;
+			format = "x8r8g8b8";
+		};
+	};
+
+	memory@0 {
+		device_type = "memory";
+		reg = <0 0x10000000>;
+	};
+
+	reserved-memory {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		fbmem: fbmem@f700000 {
+			reg = <0xf700000 (1024 * 768 * 4)>;
+			no-map;
+		};
+
+		ramoops: ramoops@ffe0000 {
+			compatible = "ramoops";
+			reg = <0xffe0000 0x20000>; // 128kB
+			record-size = <0x4000>; // 16kB
+			console-size = <0x4000>;
+		};
+	};
+};

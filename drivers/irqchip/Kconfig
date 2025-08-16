@@ -77,7 +77,7 @@ config ARM_VIC
 
 config ARM_VIC_NR
 	int
-	default 4 if ARCH_S5PV210
+	default 4 if ARCH_S5PV210 || ARCH_S5L8930
 	default 2
 	depends on ARM_VIC
 	help
