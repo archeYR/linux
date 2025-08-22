@@ -85,7 +85,8 @@ static inline enum intel_mid_cpu_type intel_mid_identify_cpu(void)
 
 static inline bool intel_mid_has_msic(void)
 {
-	return (intel_mid_identify_cpu() == INTEL_MID_CPU_CHIP_PENWELL);
+	return ((intel_mid_identify_cpu() == INTEL_MID_CPU_CHIP_PENWELL) ||
+		(intel_mid_identify_cpu() == 	INTEL_MID_CPU_CHIP_CLOVERVIEW));
 }
 
 extern void intel_scu_devices_create(void);
