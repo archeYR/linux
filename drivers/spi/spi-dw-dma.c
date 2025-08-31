@@ -97,10 +97,10 @@ static int dw_spi_dma_init_mfld(struct device *dev, struct dw_spi *dws)
 
 	/*
 	 * Get pci device for DMA controller, currently it could only
-	 * be the DMA controller of Medfield
+	 * be the DMA controller of Medfield or Cloverview
 	 */
-	dma_dev = pci_get_device(PCI_VENDOR_ID_INTEL, 0x0827, NULL);
-	if (!dma_dev)
+	if (!(dma_dev = pci_get_device(PCI_VENDOR_ID_INTEL, 0x0827, NULL)) &&
+		!(dma_dev = pci_get_device(PCI_VENDOR_ID_INTEL, 0x08ef, NULL)))
 		return -ENODEV;
 
 	dma_cap_zero(mask);
