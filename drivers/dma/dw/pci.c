@@ -108,6 +108,10 @@ static const struct pci_device_id dw_pci_id_table[] = {
 	/* Medfield (GPDMA) */
 	{ PCI_VDEVICE(INTEL, 0x0827), (kernel_ulong_t)&dw_dma_chip_pdata },
 
+	/* Cloverview */
+	{ PCI_VDEVICE(INTEL, 0x08ef), (kernel_ulong_t)&dw_dma_chip_pdata },
+	{ PCI_VDEVICE(INTEL, 0x08f0), (kernel_ulong_t)&dw_dma_chip_pdata },
+
 	/* BayTrail */
 	{ PCI_VDEVICE(INTEL, 0x0f06), (kernel_ulong_t)&dw_dma_chip_pdata },
 	{ PCI_VDEVICE(INTEL, 0x0f40), (kernel_ulong_t)&dw_dma_chip_pdata },
