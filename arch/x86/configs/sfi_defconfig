@@ -1,14 +1,14 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/x86 5.10.237 Kernel Configuration
+# Linux/x86 5.10.240 Kernel Configuration
 #
-CONFIG_CC_VERSION_TEXT="gcc (Alpine 14.2.0) 14.2.0"
+CONFIG_CC_VERSION_TEXT="gcc (Alpine 15.2.0) 15.2.0"
 CONFIG_CC_IS_GCC=y
-CONFIG_GCC_VERSION=140200
-CONFIG_LD_VERSION=244000000
+CONFIG_GCC_VERSION=150200
+CONFIG_LD_VERSION=245000000
 CONFIG_CLANG_VERSION=0
 CONFIG_AS_IS_GNU=y
-CONFIG_AS_VERSION=24400
+CONFIG_AS_VERSION=24500
 CONFIG_LLD_VERSION=0
 CONFIG_CC_HAS_ASM_GOTO=y
 CONFIG_CC_HAS_ASM_GOTO_OUTPUT=y
@@ -716,7 +716,6 @@ CONFIG_HAVE_IRQ_TIME_ACCOUNTING=y
 CONFIG_HAVE_MOVE_PMD=y
 CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE=y
 CONFIG_HAVE_ARCH_HUGE_VMAP=y
-CONFIG_ARCH_WANT_HUGE_PMD_SHARE=y
 CONFIG_HAVE_MOD_ARCH_SPECIFIC=y
 CONFIG_MODULES_USE_ELF_REL=y
 CONFIG_ARCH_HAS_ELF_RANDOMIZE=y
@@ -1473,6 +1472,7 @@ CONFIG_BLK_DEV_LOOP_MIN_COUNT=8
 # CONFIG_HMC6352 is not set
 # CONFIG_DS1682 is not set
 # CONFIG_PCH_PHUB is not set
+# CONFIG_LATTICE_ECP3_CONFIG is not set
 # CONFIG_SRAM is not set
 # CONFIG_PCI_ENDPOINT_TEST is not set
 # CONFIG_XILINX_SDFEC is not set
@@ -1483,9 +1483,11 @@ CONFIG_BLK_DEV_LOOP_MIN_COUNT=8
 # EEPROM support
 #
 # CONFIG_EEPROM_AT24 is not set
+# CONFIG_EEPROM_AT25 is not set
 # CONFIG_EEPROM_LEGACY is not set
 # CONFIG_EEPROM_MAX6875 is not set
 # CONFIG_EEPROM_93CX6 is not set
+# CONFIG_EEPROM_93XX46 is not set
 # CONFIG_EEPROM_IDT_89HPESX is not set
 # CONFIG_EEPROM_EE1004 is not set
 # end of EEPROM support
@@ -1680,6 +1682,7 @@ CONFIG_REALTEK_PHY=y
 # CONFIG_DP83869_PHY is not set
 # CONFIG_VITESSE_PHY is not set
 # CONFIG_XILINX_GMII2RGMII is not set
+# CONFIG_MICREL_KS8995MA is not set
 CONFIG_MDIO_DEVICE=y
 CONFIG_MDIO_BUS=y
 CONFIG_MDIO_DEVRES=y
@@ -1854,6 +1857,7 @@ CONFIG_INPUT_JOYSTICK=y
 # CONFIG_JOYSTICK_AS5011 is not set
 # CONFIG_JOYSTICK_JOYDUMP is not set
 # CONFIG_JOYSTICK_XPAD is not set
+# CONFIG_JOYSTICK_PSXPAD_SPI is not set
 # CONFIG_JOYSTICK_PXRC is not set
 # CONFIG_JOYSTICK_FSIA6B is not set
 CONFIG_INPUT_TABLET=y
@@ -1866,6 +1870,8 @@ CONFIG_INPUT_TABLET=y
 # CONFIG_TABLET_SERIAL_WACOM4 is not set
 CONFIG_INPUT_TOUCHSCREEN=y
 CONFIG_TOUCHSCREEN_PROPERTIES=y
+# CONFIG_TOUCHSCREEN_ADS7846 is not set
+# CONFIG_TOUCHSCREEN_AD7877 is not set
 # CONFIG_TOUCHSCREEN_AD7879 is not set
 # CONFIG_TOUCHSCREEN_ADC is not set
 # CONFIG_TOUCHSCREEN_ATMEL_MXT is not set
@@ -1910,12 +1916,14 @@ CONFIG_TOUCHSCREEN_GOODIX=y
 # CONFIG_TOUCHSCREEN_TOUCHIT213 is not set
 # CONFIG_TOUCHSCREEN_TSC_SERIO is not set
 # CONFIG_TOUCHSCREEN_TSC2004 is not set
+# CONFIG_TOUCHSCREEN_TSC2005 is not set
 # CONFIG_TOUCHSCREEN_TSC2007 is not set
 # CONFIG_TOUCHSCREEN_RM_TS is not set
 # CONFIG_TOUCHSCREEN_SILEAD is not set
 # CONFIG_TOUCHSCREEN_SIS_I2C is not set
 # CONFIG_TOUCHSCREEN_ST1232 is not set
 # CONFIG_TOUCHSCREEN_STMFTS is not set
+# CONFIG_TOUCHSCREEN_SURFACE3_SPI is not set
 # CONFIG_TOUCHSCREEN_SX8654 is not set
 # CONFIG_TOUCHSCREEN_TPS6507X is not set
 # CONFIG_TOUCHSCREEN_ZET6223 is not set
@@ -2020,6 +2028,8 @@ CONFIG_SERIAL_8250_MID=y
 #
 # Non-8250 serial port support
 #
+# CONFIG_SERIAL_MAX3100 is not set
+# CONFIG_SERIAL_MAX310X is not set
 # CONFIG_SERIAL_UARTLITE is not set
 CONFIG_SERIAL_CORE=y
 CONFIG_SERIAL_CORE_CONSOLE=y
@@ -2030,6 +2040,7 @@ CONFIG_SERIAL_CORE_CONSOLE=y
 # CONFIG_SERIAL_TIMBERDALE is not set
 # CONFIG_SERIAL_ALTERA_JTAGUART is not set
 # CONFIG_SERIAL_ALTERA_UART is not set
+# CONFIG_SERIAL_IFX6X60 is not set
 # CONFIG_SERIAL_PCH_UART is not set
 # CONFIG_SERIAL_ARC is not set
 # CONFIG_SERIAL_RP2 is not set
@@ -2181,7 +2192,50 @@ CONFIG_I2C_DEBUG_BUS=y
 # end of I2C support
 
 # CONFIG_I3C is not set
-# CONFIG_SPI is not set
+CONFIG_SPI=y
+# CONFIG_SPI_DEBUG is not set
+CONFIG_SPI_MASTER=y
+CONFIG_SPI_MEM=y
+
+#
+# SPI Master Controller Drivers
+#
+# CONFIG_SPI_ALTERA is not set
+# CONFIG_SPI_AXI_SPI_ENGINE is not set
+# CONFIG_SPI_BITBANG is not set
+# CONFIG_SPI_CADENCE is not set
+CONFIG_SPI_DESIGNWARE=y
+CONFIG_SPI_DW_DMA=y
+CONFIG_SPI_DW_PCI=y
+CONFIG_SPI_DW_MMIO=y
+# CONFIG_SPI_NXP_FLEXSPI is not set
+# CONFIG_SPI_GPIO is not set
+# CONFIG_SPI_LANTIQ_SSC is not set
+# CONFIG_SPI_OC_TINY is not set
+# CONFIG_SPI_PXA2XX is not set
+# CONFIG_SPI_ROCKCHIP is not set
+# CONFIG_SPI_SC18IS602 is not set
+# CONFIG_SPI_SIFIVE is not set
+# CONFIG_SPI_MXIC is not set
+# CONFIG_SPI_TOPCLIFF_PCH is not set
+# CONFIG_SPI_XCOMM is not set
+# CONFIG_SPI_XILINX is not set
+# CONFIG_SPI_ZYNQMP_GQSPI is not set
+# CONFIG_SPI_AMD is not set
+
+#
+# SPI Multiplexer support
+#
+# CONFIG_SPI_MUX is not set
+
+#
+# SPI Protocol Masters
+#
+# CONFIG_SPI_SPIDEV is not set
+# CONFIG_SPI_LOOPBACK_TEST is not set
+# CONFIG_SPI_TLE62X0 is not set
+# CONFIG_SPI_SLAVE is not set
+CONFIG_SPI_DYNAMIC=y
 # CONFIG_SPMI is not set
 # CONFIG_HSI is not set
 CONFIG_PPS=y
@@ -2280,6 +2334,16 @@ CONFIG_GPIO_INTEL_MID=y
 # end of PCI GPIO expanders
 
 #
+# SPI GPIO expanders
+#
+# CONFIG_GPIO_MAX3191X is not set
+# CONFIG_GPIO_MAX7301 is not set
+# CONFIG_GPIO_MC33880 is not set
+# CONFIG_GPIO_PISOSR is not set
+# CONFIG_GPIO_XRA1403 is not set
+# end of SPI GPIO expanders
+
+#
 # USB GPIO expanders
 #
 # end of USB GPIO expanders
@@ -2330,6 +2394,7 @@ CONFIG_HWMON=y
 #
 # CONFIG_SENSORS_ABITUGURU is not set
 # CONFIG_SENSORS_ABITUGURU3 is not set
+# CONFIG_SENSORS_AD7314 is not set
 # CONFIG_SENSORS_AD7414 is not set
 # CONFIG_SENSORS_AD7418 is not set
 # CONFIG_SENSORS_ADM1021 is not set
@@ -2339,6 +2404,7 @@ CONFIG_HWMON=y
 # CONFIG_SENSORS_ADM1031 is not set
 # CONFIG_SENSORS_ADM1177 is not set
 # CONFIG_SENSORS_ADM9240 is not set
+# CONFIG_SENSORS_ADT7310 is not set
 # CONFIG_SENSORS_ADT7410 is not set
 # CONFIG_SENSORS_ADT7411 is not set
 # CONFIG_SENSORS_ADT7462 is not set
@@ -2379,6 +2445,7 @@ CONFIG_HWMON=y
 # CONFIG_SENSORS_LINEAGE is not set
 # CONFIG_SENSORS_LTC2945 is not set
 # CONFIG_SENSORS_LTC2947_I2C is not set
+# CONFIG_SENSORS_LTC2947_SPI is not set
 # CONFIG_SENSORS_LTC2990 is not set
 # CONFIG_SENSORS_LTC4151 is not set
 # CONFIG_SENSORS_LTC4215 is not set
@@ -2386,10 +2453,12 @@ CONFIG_HWMON=y
 # CONFIG_SENSORS_LTC4245 is not set
 # CONFIG_SENSORS_LTC4260 is not set
 # CONFIG_SENSORS_LTC4261 is not set
+# CONFIG_SENSORS_MAX1111 is not set
 # CONFIG_SENSORS_MAX16065 is not set
 # CONFIG_SENSORS_MAX1619 is not set
 # CONFIG_SENSORS_MAX1668 is not set
 # CONFIG_SENSORS_MAX197 is not set
+# CONFIG_SENSORS_MAX31722 is not set
 # CONFIG_SENSORS_MAX31730 is not set
 # CONFIG_SENSORS_MAX6621 is not set
 # CONFIG_SENSORS_MAX6639 is not set
@@ -2400,7 +2469,9 @@ CONFIG_HWMON=y
 # CONFIG_SENSORS_MCP3021 is not set
 # CONFIG_SENSORS_TC654 is not set
 # CONFIG_SENSORS_MR75203 is not set
+# CONFIG_SENSORS_ADCXX is not set
 # CONFIG_SENSORS_LM63 is not set
+# CONFIG_SENSORS_LM70 is not set
 # CONFIG_SENSORS_LM73 is not set
 # CONFIG_SENSORS_LM75 is not set
 # CONFIG_SENSORS_LM77 is not set
@@ -2443,6 +2514,7 @@ CONFIG_HWMON=y
 # CONFIG_SENSORS_SMM665 is not set
 # CONFIG_SENSORS_ADC128D818 is not set
 # CONFIG_SENSORS_ADS7828 is not set
+# CONFIG_SENSORS_ADS7871 is not set
 # CONFIG_SENSORS_AMC6821 is not set
 # CONFIG_SENSORS_INA209 is not set
 # CONFIG_SENSORS_INA2XX is not set
@@ -2614,12 +2686,14 @@ CONFIG_MFD_CORE=y
 # CONFIG_MFD_AXP20X_I2C is not set
 # CONFIG_MFD_MADERA is not set
 # CONFIG_PMIC_DA903X is not set
+# CONFIG_MFD_DA9052_SPI is not set
 # CONFIG_MFD_DA9052_I2C is not set
 # CONFIG_MFD_DA9055 is not set
 # CONFIG_MFD_DA9062 is not set
 # CONFIG_MFD_DA9063 is not set
 # CONFIG_MFD_DA9150 is not set
 # CONFIG_MFD_DLN2 is not set
+# CONFIG_MFD_MC13XXX_SPI is not set
 # CONFIG_MFD_MC13XXX_I2C is not set
 # CONFIG_MFD_MP2629 is not set
 # CONFIG_HTC_PASIC3 is not set
@@ -2651,6 +2725,7 @@ CONFIG_MFD_INTEL_MSIC=y
 # CONFIG_MFD_MT6360 is not set
 # CONFIG_MFD_MT6397 is not set
 # CONFIG_MFD_MENF21BMC is not set
+# CONFIG_EZX_PCAP is not set
 # CONFIG_MFD_VIPERBOARD is not set
 # CONFIG_MFD_RETU is not set
 # CONFIG_MFD_PCF50633 is not set
@@ -2677,6 +2752,7 @@ CONFIG_MFD_INTEL_MSIC=y
 # CONFIG_MFD_TPS6586X is not set
 # CONFIG_MFD_TPS65910 is not set
 # CONFIG_MFD_TPS65912_I2C is not set
+# CONFIG_MFD_TPS65912_SPI is not set
 # CONFIG_MFD_TPS80031 is not set
 # CONFIG_TWL4030_CORE is not set
 # CONFIG_TWL6040_CORE is not set
@@ -2686,11 +2762,14 @@ CONFIG_MFD_INTEL_MSIC=y
 # CONFIG_MFD_TQMX86 is not set
 # CONFIG_MFD_VX855 is not set
 # CONFIG_MFD_ARIZONA_I2C is not set
+# CONFIG_MFD_ARIZONA_SPI is not set
 # CONFIG_MFD_WM8400 is not set
 # CONFIG_MFD_WM831X_I2C is not set
+# CONFIG_MFD_WM831X_SPI is not set
 # CONFIG_MFD_WM8350_I2C is not set
 # CONFIG_MFD_WM8994 is not set
 # CONFIG_RAVE_SP_CORE is not set
+# CONFIG_MFD_INTEL_M10_BMC is not set
 # end of Multifunction device drivers
 
 CONFIG_REGULATOR=y
@@ -2734,6 +2813,7 @@ CONFIG_REGULATOR_GPIO=y
 # CONFIG_REGULATOR_TPS65023 is not set
 # CONFIG_REGULATOR_TPS6507X is not set
 # CONFIG_REGULATOR_TPS65132 is not set
+# CONFIG_REGULATOR_TPS6524X is not set
 # CONFIG_RC_CORE is not set
 # CONFIG_MEDIA_CEC_SUPPORT is not set
 # CONFIG_MEDIA_SUPPORT is not set
@@ -2820,6 +2900,14 @@ CONFIG_DRM_PANEL_BRIDGE=y
 # CONFIG_DRM_ETNAVIV is not set
 # CONFIG_DRM_CIRRUS_QEMU is not set
 # CONFIG_DRM_GM12U320 is not set
+# CONFIG_TINYDRM_HX8357D is not set
+# CONFIG_TINYDRM_ILI9225 is not set
+# CONFIG_TINYDRM_ILI9341 is not set
+# CONFIG_TINYDRM_ILI9486 is not set
+# CONFIG_TINYDRM_MI0283QT is not set
+# CONFIG_TINYDRM_REPAPER is not set
+# CONFIG_TINYDRM_ST7586 is not set
+# CONFIG_TINYDRM_ST7735R is not set
 # CONFIG_DRM_VBOXVIDEO is not set
 # CONFIG_DRM_LEGACY is not set
 CONFIG_DRM_PANEL_ORIENTATION_QUIRKS=y
@@ -3089,10 +3177,16 @@ CONFIG_USB_AUTOSUSPEND_DELAY=2
 #
 # CONFIG_USB_C67X00_HCD is not set
 # CONFIG_USB_XHCI_HCD is not set
-# CONFIG_USB_EHCI_HCD is not set
+CONFIG_USB_EHCI_HCD=y
+CONFIG_USB_EHCI_ROOT_HUB_TT=y
+CONFIG_USB_EHCI_TT_NEWSCHED=y
+CONFIG_USB_EHCI_PCI=y
+# CONFIG_USB_EHCI_FSL is not set
+# CONFIG_USB_EHCI_HCD_PLATFORM is not set
 # CONFIG_USB_OXU210HP_HCD is not set
 # CONFIG_USB_ISP116X_HCD is not set
 # CONFIG_USB_FOTG210_HCD is not set
+# CONFIG_USB_MAX3421_HCD is not set
 # CONFIG_USB_OHCI_HCD is not set
 # CONFIG_USB_UHCI_HCD is not set
 # CONFIG_USB_SL811_HCD is not set
@@ -3130,6 +3224,7 @@ CONFIG_USB_AUTOSUSPEND_DELAY=2
 # CONFIG_USB_DWC2 is not set
 CONFIG_USB_CHIPIDEA=y
 CONFIG_USB_CHIPIDEA_UDC=y
+# CONFIG_USB_CHIPIDEA_HOST is not set
 CONFIG_USB_CHIPIDEA_PCI=y
 # CONFIG_USB_CHIPIDEA_MSM is not set
 # CONFIG_USB_CHIPIDEA_GENERIC is not set
@@ -3155,6 +3250,7 @@ CONFIG_USB_CHIPIDEA_PCI=y
 # CONFIG_USB_FTDI_ELAN is not set
 # CONFIG_USB_APPLEDISPLAY is not set
 # CONFIG_APPLE_MFI_FASTCHARGE is not set
+# CONFIG_USB_SISUSBVGA is not set
 # CONFIG_USB_LD is not set
 # CONFIG_USB_TRANCEVIBRATOR is not set
 # CONFIG_USB_IOWARRIOR is not set
@@ -3201,6 +3297,7 @@ CONFIG_USB_GADGET_STORAGE_NUM_BUFFERS=2
 # CONFIG_USB_NET2280 is not set
 # CONFIG_USB_GOKU is not set
 # CONFIG_USB_EG20T is not set
+# CONFIG_USB_MAX3420_UDC is not set
 # CONFIG_USB_DUMMY_HCD is not set
 # end of USB Peripheral Controller
 
@@ -3253,6 +3350,7 @@ CONFIG_MMC_SDHCI_PCI=y
 # CONFIG_MMC_SDHCI_PLTFM is not set
 # CONFIG_MMC_WBSD is not set
 # CONFIG_MMC_TIFM_SD is not set
+# CONFIG_MMC_SPI is not set
 # CONFIG_MMC_SDRICOH_CS is not set
 # CONFIG_MMC_CB710 is not set
 # CONFIG_MMC_VIA_SDMMC is not set
@@ -3285,6 +3383,7 @@ CONFIG_LEDS_CLASS=y
 # CONFIG_LEDS_CLEVO_MAIL is not set
 # CONFIG_LEDS_PCA955X is not set
 # CONFIG_LEDS_PCA963X is not set
+# CONFIG_LEDS_DAC124S085 is not set
 # CONFIG_LEDS_REGULATOR is not set
 # CONFIG_LEDS_BD2802 is not set
 # CONFIG_LEDS_INTEL_SS4200 is not set
@@ -3382,6 +3481,21 @@ CONFIG_RTC_INTF_DEV=y
 #
 # SPI RTC drivers
 #
+# CONFIG_RTC_DRV_M41T93 is not set
+# CONFIG_RTC_DRV_M41T94 is not set
+# CONFIG_RTC_DRV_DS1302 is not set
+# CONFIG_RTC_DRV_DS1305 is not set
+# CONFIG_RTC_DRV_DS1343 is not set
+# CONFIG_RTC_DRV_DS1347 is not set
+# CONFIG_RTC_DRV_DS1390 is not set
+# CONFIG_RTC_DRV_MAX6916 is not set
+# CONFIG_RTC_DRV_R9701 is not set
+# CONFIG_RTC_DRV_RX4581 is not set
+# CONFIG_RTC_DRV_RX6110 is not set
+# CONFIG_RTC_DRV_RS5C348 is not set
+# CONFIG_RTC_DRV_MAX6902 is not set
+# CONFIG_RTC_DRV_PCF2123 is not set
+# CONFIG_RTC_DRV_MCP795 is not set
 CONFIG_RTC_I2C_AND_SPI=y
 
 #
@@ -3435,8 +3549,8 @@ CONFIG_DMA_ACPI=y
 # CONFIG_QCOM_HIDMA_MGMT is not set
 # CONFIG_QCOM_HIDMA is not set
 CONFIG_DW_DMAC_CORE=y
-# CONFIG_DW_DMAC is not set
-# CONFIG_DW_DMAC_PCI is not set
+CONFIG_DW_DMAC=y
+CONFIG_DW_DMAC_PCI=y
 # CONFIG_DW_EDMA is not set
 # CONFIG_DW_EDMA_PCIE is not set
 CONFIG_HSU_DMA=y
@@ -3537,6 +3651,7 @@ CONFIG_INTEL_SCU_IPC_UTIL=y
 CONFIG_PMC_ATOM=y
 # CONFIG_CHROME_PLATFORMS is not set
 # CONFIG_MELLANOX_PLATFORM is not set
+CONFIG_SURFACE_PLATFORMS=y
 CONFIG_HAVE_CLK=y
 CONFIG_CLKDEV_LOOKUP=y
 CONFIG_HAVE_CLK_PREPARE=y
@@ -3669,9 +3784,14 @@ CONFIG_IIO_CONSUMERS_PER_TRIGGER=2
 #
 # Accelerometers
 #
+# CONFIG_ADIS16201 is not set
+# CONFIG_ADIS16209 is not set
 # CONFIG_ADXL345_I2C is not set
+# CONFIG_ADXL345_SPI is not set
+# CONFIG_ADXL372_SPI is not set
 # CONFIG_ADXL372_I2C is not set
 CONFIG_BMA180=y
+# CONFIG_BMA220 is not set
 # CONFIG_BMA400 is not set
 # CONFIG_BMC150_ACCEL is not set
 # CONFIG_DA280 is not set
@@ -3683,12 +3803,14 @@ CONFIG_BMA180=y
 # CONFIG_KXCJK1013 is not set
 # CONFIG_MC3230 is not set
 # CONFIG_MMA7455_I2C is not set
+# CONFIG_MMA7455_SPI is not set
 # CONFIG_MMA7660 is not set
 # CONFIG_MMA8452 is not set
 # CONFIG_MMA9551 is not set
 # CONFIG_MMA9553 is not set
 # CONFIG_MXC4005 is not set
 # CONFIG_MXC6255 is not set
+# CONFIG_SCA3000 is not set
 # CONFIG_STK8312 is not set
 # CONFIG_STK8BA50 is not set
 # end of Accelerometers
@@ -3697,21 +3819,52 @@ CONFIG_BMA180=y
 # Analog to digital converters
 #
 # CONFIG_AD7091R5 is not set
+# CONFIG_AD7124 is not set
+# CONFIG_AD7192 is not set
+# CONFIG_AD7266 is not set
 # CONFIG_AD7291 is not set
+# CONFIG_AD7292 is not set
+# CONFIG_AD7298 is not set
+# CONFIG_AD7476 is not set
 # CONFIG_AD7606_IFACE_PARALLEL is not set
+# CONFIG_AD7606_IFACE_SPI is not set
+# CONFIG_AD7766 is not set
+# CONFIG_AD7768_1 is not set
+# CONFIG_AD7780 is not set
+# CONFIG_AD7791 is not set
+# CONFIG_AD7793 is not set
+# CONFIG_AD7887 is not set
+# CONFIG_AD7923 is not set
+# CONFIG_AD7949 is not set
 # CONFIG_AD799X is not set
 # CONFIG_CC10001_ADC is not set
+# CONFIG_HI8435 is not set
 # CONFIG_HX711 is not set
 # CONFIG_INA2XX_ADC is not set
 # CONFIG_LTC2471 is not set
 # CONFIG_LTC2485 is not set
+# CONFIG_LTC2496 is not set
 # CONFIG_LTC2497 is not set
+# CONFIG_MAX1027 is not set
+# CONFIG_MAX11100 is not set
+# CONFIG_MAX1118 is not set
+# CONFIG_MAX1241 is not set
 # CONFIG_MAX1363 is not set
 # CONFIG_MAX9611 is not set
+# CONFIG_MCP320X is not set
 # CONFIG_MCP3422 is not set
+# CONFIG_MCP3911 is not set
 # CONFIG_NAU7802 is not set
 # CONFIG_TI_ADC081C is not set
+# CONFIG_TI_ADC0832 is not set
+# CONFIG_TI_ADC084S021 is not set
+# CONFIG_TI_ADC12138 is not set
+# CONFIG_TI_ADC108S102 is not set
+# CONFIG_TI_ADC128S052 is not set
+# CONFIG_TI_ADC161S626 is not set
 # CONFIG_TI_ADS1015 is not set
+# CONFIG_TI_ADS7950 is not set
+# CONFIG_TI_TLC4541 is not set
 # CONFIG_XILINX_XADC is not set
 # end of Analog to digital converters
 
@@ -3727,6 +3880,7 @@ CONFIG_BMA180=y
 #
 # Amplifiers
 #
+# CONFIG_AD8366 is not set
 # CONFIG_HMC425 is not set
 # end of Amplifiers
 
@@ -3753,21 +3907,43 @@ CONFIG_BMA180=y
 #
 # SSP Sensor Common
 #
+# CONFIG_IIO_SSP_SENSORHUB is not set
 # end of SSP Sensor Common
 
 #
 # Digital to analog converters
 #
 # CONFIG_AD5064 is not set
+# CONFIG_AD5360 is not set
 # CONFIG_AD5380 is not set
+# CONFIG_AD5421 is not set
 # CONFIG_AD5446 is not set
+# CONFIG_AD5449 is not set
+# CONFIG_AD5592R is not set
 # CONFIG_AD5593R is not set
+# CONFIG_AD5504 is not set
+# CONFIG_AD5624R_SPI is not set
+# CONFIG_AD5686_SPI is not set
 # CONFIG_AD5696_I2C is not set
+# CONFIG_AD5755 is not set
+# CONFIG_AD5758 is not set
+# CONFIG_AD5761 is not set
+# CONFIG_AD5764 is not set
+# CONFIG_AD5770R is not set
+# CONFIG_AD5791 is not set
+# CONFIG_AD7303 is not set
+# CONFIG_AD8801 is not set
 # CONFIG_DS4424 is not set
+# CONFIG_LTC1660 is not set
+# CONFIG_LTC2632 is not set
 # CONFIG_M62332 is not set
 # CONFIG_MAX517 is not set
 # CONFIG_MCP4725 is not set
+# CONFIG_MCP4922 is not set
+# CONFIG_TI_DAC082S085 is not set
 # CONFIG_TI_DAC5571 is not set
+# CONFIG_TI_DAC7311 is not set
+# CONFIG_TI_DAC7612 is not set
 # end of Digital to analog converters
 
 #
@@ -3782,17 +3958,26 @@ CONFIG_BMA180=y
 #
 # Clock Generator/Distribution
 #
+# CONFIG_AD9523 is not set
 # end of Clock Generator/Distribution
 
 #
 # Phase-Locked Loop (PLL) frequency synthesizers
 #
+# CONFIG_ADF4350 is not set
+# CONFIG_ADF4371 is not set
 # end of Phase-Locked Loop (PLL) frequency synthesizers
 # end of Frequency Synthesizers DDS/PLL
 
 #
 # Digital gyroscope sensors
 #
+# CONFIG_ADIS16080 is not set
+# CONFIG_ADIS16130 is not set
+# CONFIG_ADIS16136 is not set
+# CONFIG_ADIS16260 is not set
+# CONFIG_ADXRS290 is not set
+# CONFIG_ADXRS450 is not set
 # CONFIG_BMG160 is not set
 # CONFIG_FXAS21002C is not set
 # CONFIG_MPU3050_I2C is not set
@@ -3807,6 +3992,7 @@ CONFIG_BMA180=y
 #
 # Heart Rate Monitors
 #
+# CONFIG_AFE4403 is not set
 # CONFIG_AFE4404 is not set
 # CONFIG_MAX30100 is not set
 # CONFIG_MAX30102 is not set
@@ -3829,11 +4015,19 @@ CONFIG_BMA180=y
 #
 # Inertial measurement units
 #
+# CONFIG_ADIS16400 is not set
+# CONFIG_ADIS16460 is not set
+# CONFIG_ADIS16475 is not set
+# CONFIG_ADIS16480 is not set
 # CONFIG_BMI160_I2C is not set
+# CONFIG_BMI160_SPI is not set
 # CONFIG_FXOS8700_I2C is not set
+# CONFIG_FXOS8700_SPI is not set
 # CONFIG_KMX61 is not set
 # CONFIG_INV_ICM42600_I2C is not set
+# CONFIG_INV_ICM42600_SPI is not set
 # CONFIG_INV_MPU6050_I2C is not set
+# CONFIG_INV_MPU6050_SPI is not set
 # CONFIG_IIO_ST_LSM6DSX is not set
 # end of Inertial measurement units
 
@@ -3893,11 +4087,14 @@ CONFIG_BMA180=y
 # CONFIG_AK8975 is not set
 # CONFIG_AK09911 is not set
 # CONFIG_BMC150_MAGN_I2C is not set
+# CONFIG_BMC150_MAGN_SPI is not set
 # CONFIG_MAG3110 is not set
 # CONFIG_MMC35240 is not set
 # CONFIG_IIO_ST_MAGN_3AXIS is not set
 # CONFIG_SENSORS_HMC5843_I2C is not set
+# CONFIG_SENSORS_HMC5843_SPI is not set
 # CONFIG_SENSORS_RM3100_I2C is not set
+# CONFIG_SENSORS_RM3100_SPI is not set
 # end of Magnetometer sensors
 
 #
@@ -3928,8 +4125,12 @@ CONFIG_BMA180=y
 # CONFIG_AD5272 is not set
 # CONFIG_DS1803 is not set
 # CONFIG_MAX5432 is not set
+# CONFIG_MAX5481 is not set
+# CONFIG_MAX5487 is not set
 # CONFIG_MCP4018 is not set
+# CONFIG_MCP4131 is not set
 # CONFIG_MCP4531 is not set
+# CONFIG_MCP41010 is not set
 # CONFIG_TPL0102 is not set
 # end of Digital potentiometers
 
@@ -3949,6 +4150,7 @@ CONFIG_BMA180=y
 # CONFIG_HP03 is not set
 # CONFIG_ICP10100 is not set
 # CONFIG_MPL115_I2C is not set
+# CONFIG_MPL115_SPI is not set
 # CONFIG_MPL3115 is not set
 # CONFIG_MS5611 is not set
 # CONFIG_MS5637 is not set
@@ -3961,6 +4163,7 @@ CONFIG_BMA180=y
 #
 # Lightning sensors
 #
+# CONFIG_AS3935 is not set
 # end of Lightning sensors
 
 #
@@ -3982,17 +4185,22 @@ CONFIG_BMA180=y
 #
 # Resolver to digital converters
 #
+# CONFIG_AD2S90 is not set
+# CONFIG_AD2S1200 is not set
 # end of Resolver to digital converters
 
 #
 # Temperature sensors
 #
+# CONFIG_LTC2983 is not set
+# CONFIG_MAXIM_THERMOCOUPLE is not set
 # CONFIG_MLX90614 is not set
 # CONFIG_MLX90632 is not set
 # CONFIG_TMP006 is not set
 # CONFIG_TMP007 is not set
 # CONFIG_TSYS01 is not set
 # CONFIG_TSYS02D is not set
+# CONFIG_MAX31856 is not set
 # end of Temperature sensors
 
 # CONFIG_NTB is not set
