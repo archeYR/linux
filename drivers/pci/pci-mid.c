@@ -61,6 +61,7 @@ static const struct pci_platform_pm_ops mid_pci_platform_pm = {
  */
 static const struct x86_cpu_id lpss_cpu_ids[] = {
 	X86_MATCH_INTEL_FAM6_MODEL(ATOM_SALTWELL_MID, NULL),
+	X86_MATCH_INTEL_FAM6_MODEL(ATOM_SALTWELL_TABLET, NULL),
 	X86_MATCH_INTEL_FAM6_MODEL(ATOM_SILVERMONT_MID, NULL),
 	{}
 };
