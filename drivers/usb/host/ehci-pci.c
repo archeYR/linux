@@ -144,6 +144,33 @@ static int ehci_pci_setup(struct usb_hcd *hcd)
 	case PCI_VENDOR_ID_INTEL:
 		if (pdev->device == PCI_DEVICE_ID_INTEL_CE4100_USB)
 			hcd->has_tt = 1;
+		if (pdev->device == 0x08F2) {
+			/* Copypasted vendor kernel code that disables "USB SPH" controller.
+			 * There's also "use_sph" Linux cmdline, but we ignore that here
+			 * because there's no known use of this flag.
+			 * Otherwise this USB controller seems to break other PCI devices.
+			 * TODO: Check what "use_sph" does on vendor kernel. */
+			/* All need to bypass tll mode  */
+			temp = ehci_readl(ehci, hcd->regs + 0x400);
+			temp &= ~1;
+			ehci_writel(ehci, temp, hcd->regs + 0x400);
+
+
+			/* ULPI 1 ref-clock switch off */
+			temp = ehci_readl(ehci, hcd->regs + 0x400);
+			temp |= 2;
+			ehci_writel(ehci, temp, hcd->regs + 0x400);
+
+			/* Set Power state */
+			retval = pci_set_power_state(pdev, PCI_D1);
+			if (retval < 0)
+				ehci_err(ehci,
+					"Set SPH to D1 failed, retval = %d\n",
+					retval);
+
+			ehci_info(ehci, "USB SPH is disabled\n");
+			return -ENODEV;
+		}
 		break;
 	case PCI_VENDOR_ID_TDI:
 		if (pdev->device == PCI_DEVICE_ID_TDI_EHCI)
