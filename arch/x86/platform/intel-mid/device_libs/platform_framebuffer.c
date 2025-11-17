@@ -63,7 +63,9 @@ static int simplefb_sfi_init(void)
 		gma_device = pci_get_device(PCI_VENDOR_ID_INTEL,
 									gma_device_list[device_id],
 									gma_device);
-		if (gma_device && (gma_device->class >> 8) == PCI_CLASS_DISPLAY_VGA)
+		if (gma_device &&
+			((gma_device->class >> 8) == PCI_CLASS_DISPLAY_VGA ||
+			(gma_device->class >> 8) == PCI_CLASS_DISPLAY_OTHER))
 			break;
 		device_id++;
 	}
@@ -88,9 +90,10 @@ static int simplefb_sfi_init(void)
 	switch(ioread32(bar0_address + DSPACNTR) & DISPPLANE_PIXFORMAT_MASK)
 	{
 		case DISPPLANE_8BPP:
-		case DISPPLANE_15_16BPP:
 			pr_err("simplefb does not support current GMA framebuffer format\n");
 			fallthrough;
+		case DISPPLANE_15_16BPP:
+			mode.format = "x1r5g5b5";
 		case DISPPLANE_16BPP:
 			mode.format = "r5g6b5";
 			break;
@@ -102,7 +105,7 @@ static int simplefb_sfi_init(void)
 			break;
 		default:
 			pr_err("Unknown GMA framebuffer format\n");
-			mode.format = "r5g6b5";
+			mode.format = "x1r5g5b5";
 			break;
 	}
 
